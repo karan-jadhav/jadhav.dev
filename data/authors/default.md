@@ -1,6 +1,6 @@
 ---
 name: Karan Jadhav
-avatar: /static/images/avatar.png
+avatar: /static/images/avatar.jpg
 occupation: Software Engineer
 company: Intenselglobal
 email: karan@jadhav.dev
