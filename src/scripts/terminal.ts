@@ -3,9 +3,11 @@ import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
 import { FitAddon } from 'xterm-addon-fit';
 
-let webcontainerInstance;
+let webcontainerInstance: WebContainer;
 
-let terminal;
+let terminal: Terminal;
+
+
 
 window.addEventListener('load', async () => {
 
@@ -15,11 +17,11 @@ window.addEventListener('load', async () => {
 
     const exitCode = await echo();
     if (exitCode !== 0) {
-        terminalEl.innerHTML = 'Failed to run echo command';
+        terminalEl!.innerHTML = 'Failed to run echo command';
         return;
     }
 
-    terminalEl.innerHTML = '';
+    terminalEl!.innerHTML = '';
 
     terminal = new Terminal({
         convertEol: true,
@@ -28,7 +30,7 @@ window.addEventListener('load', async () => {
     const fitAddon = new FitAddon();
 
     terminal.loadAddon(fitAddon);
-    terminal.open(terminalEl);
+    terminal.open(terminalEl as HTMLElement);
 
     fitAddon.fit();
 
@@ -51,7 +53,7 @@ async function echo() {
     return process.exit;
 }
 
-async function startShell(terminal) {
+async function startShell(terminal: Terminal) {
     const shellProcess = await webcontainerInstance.spawn('jsh', {
         terminal: {
             cols: terminal.cols,
