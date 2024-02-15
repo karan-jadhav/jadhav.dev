@@ -12,14 +12,19 @@ let terminal: Terminal;
 window.addEventListener('load', async () => {
 
     const terminalEl = document.querySelector('.terminal');
+    const loaderEl = document.querySelector('.loader');
 
     webcontainerInstance = await WebContainer.boot();
 
     const exitCode = await echo();
     if (exitCode !== 0) {
-        terminalEl!.innerHTML = 'Failed to run echo command';
+        loaderEl!.innerHTML = 'Failed to run echo command';
         return;
     }
+
+    loaderEl!.remove();
+    // remove hidden class from terminal
+    terminalEl!.classList.remove('hidden');
 
     terminalEl!.innerHTML = '';
 
@@ -33,6 +38,9 @@ window.addEventListener('load', async () => {
     terminal.open(terminalEl as HTMLElement);
 
     fitAddon.fit();
+
+    terminal.write('Welcome to Jadhav.dev Terminal\n');
+    terminal.write("Today's date is: " + new Date().toLocaleDateString() + "\n");
 
     const shellProcess = await startShell(terminal);
 

@@ -1,4 +1,11 @@
-<div class="terminal">Loading Terminal</div>
+<div class="app">
+    <div class="terminal hidden"></div>
+    <div
+        class="loader flex justify-center items-center h-screen bg-black text-white text-3xl font-bold"
+    >
+        <span class="animate-pulse"> Loading Terminal ...</span>
+    </div>
+</div>
 
 <style>
     html,
@@ -7,6 +14,14 @@
         margin: 0;
         padding: 0;
         overflow: hidden; /* Prevents scrollbars from appearing */
+    }
+
+    .app {
+        height: 100%;
+    }
+
+    .loader {
+        height: 100%;
     }
 
     .terminal {
