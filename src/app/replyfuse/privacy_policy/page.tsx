@@ -1,10 +1,12 @@
+import CurrentYear from "../../../components/CurrentYear";
+
+export const dynamic = "force-static";
+
 export const metadata = {
   title: "ReplyFuse — Privacy Policy",
   description:
     "Privacy Policy for ReplyFuse prototype testing phase, including data collection, usage, retention, and contact details.",
 };
-
-import CurrentYear from "../../../components/CurrentYear";
 
 export default function PrivacyPolicyPage() {
   return (

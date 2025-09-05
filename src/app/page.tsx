@@ -1,12 +1,12 @@
 import { ExternalLink, Mail, MapPin, Calendar } from "lucide-react";
-
+export const dynamic = "force-static";
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
       <div className="max-w-2xl mx-auto space-y-16">
         <div className="text-center">
           <h1 className="text-4xl font-light text-white mb-2">
-            hey, I'm Karan Jadhav <span className="wave-on-load">👋</span>
+            hey, I&apos;m Karan Jadhav <span className="wave-on-load">👋</span>
           </h1>
         </div>
 
@@ -17,13 +17,13 @@ export default function Home() {
           </div>
 
           <p>
-            I'm a software engineer with a passion for building software that
-            improves the lives of people. I love to solve problems and create
-            things that make a difference.
+            I&apos;m a software engineer with a passion for building software
+            that improves the lives of people. I love to solve problems and
+            create things that make a difference.
           </p>
 
           <p>
-            I'm currently working at{" "}
+            I&apos;m currently working at{" "}
             <a
               href="https://intensel.net"
               className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
@@ -57,7 +57,7 @@ export default function Home() {
               <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
               <div>
                 <div className="font-medium">
-                  Reading "Designing Data-Intensive Applications"
+                  Reading &quot;Designing Data-Intensive Applications&quot;
                 </div>
                 <div className="text-sm text-gray-400">
                   Deepening my understanding of distributed systems
@@ -184,9 +184,9 @@ export default function Home() {
 
         <div className="space-y-6">
           <p className="text-gray-300">
-            When I'm not coding, you'll find me exploring new technologies,
-            contributing to open source projects, or thinking about ways
-            technology can solve real-world problems.
+            When I&apos;m not coding, you&apos;ll find me exploring new
+            technologies, contributing to open source projects, or thinking
+            about ways technology can solve real-world problems.
           </p>
 
           <p className="text-gray-300">
@@ -208,8 +208,8 @@ export default function Home() {
             >
               LinkedIn <ExternalLink className="w-3 h-3" />
             </a>
-            . I'm always open to connecting with like-minded individuals and
-            exploring new opportunities.
+            . I&apos;m always open to connecting with like-minded individuals
+            and exploring new opportunities.
           </p>
         </div>
 
