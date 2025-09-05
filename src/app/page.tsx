@@ -1,4 +1,5 @@
 import { ExternalLink, Mail, MapPin, Calendar } from "lucide-react";
+import YearsSince from "@/components/YearsSince";
 export const dynamic = "force-static";
 export default function Home() {
   return (
@@ -87,7 +88,9 @@ export default function Home() {
                 <div className="font-medium">
                   Software Engineer at Intensel LTD
                 </div>
-                <div className="text-sm text-gray-400">2023 - Present</div>
+                <div className="text-sm text-gray-400">
+                  2021 - Present (<YearsSince startYear={2021} />)
+                </div>
                 <div className="text-sm mt-1">
                   Building climate risk management platforms that help
                   businesses navigate environmental challenges
