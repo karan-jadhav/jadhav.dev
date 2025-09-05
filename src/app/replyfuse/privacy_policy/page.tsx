@@ -1,4 +1,4 @@
-import CurrentYear from "../../../components/CurrentYear";
+import CurrentYear from "@/components/CurrentYear";
 
 export const dynamic = "force-static";
 
