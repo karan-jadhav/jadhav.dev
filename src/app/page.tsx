@@ -18,9 +18,8 @@ export default function Home() {
           </div>
 
           <p>
-            I&apos;m a software engineer with a passion for building software
-            that improves the lives of people. I love to solve problems and
-            create things that make a difference.
+            Driven by a passion for building software that improves lives, I
+            love solving problems and creating things that make a difference.
           </p>
 
           <p>
@@ -33,10 +32,9 @@ export default function Home() {
             >
               Intensel LTD
             </a>{" "}
-            as a Software Engineer, developing a cutting-edge platform that
-            helps businesses understand and manage their climate risk
-            effectively. My work is geared towards making a significant impact
-            on how companies navigate environmental challenges.
+            as a Software Engineer, building a platform that helps businesses
+            understand and manage climate risk. I focus on practical, impactful
+            engineering to help companies navigate environmental challenges.
           </p>
         </div>
 
@@ -44,28 +42,18 @@ export default function Home() {
           <h2 className="text-xl font-light text-white">Currently</h2>
           <div className="space-y-3 text-gray-300">
             <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <div className="font-medium">
-                  Learning Next.js 14 and Server Components
-                </div>
-                <div className="text-sm text-gray-400">
-                  Exploring the latest React patterns and full-stack development
-                </div>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
               <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
               <div>
                 <div className="font-medium">
-                  Reading &quot;Designing Data-Intensive Applications&quot;
+                  Focusing on distributed systems (DDIA)
                 </div>
                 <div className="text-sm text-gray-400">
-                  Deepening my understanding of distributed systems
+                  Consistency models, data partitioning, and scalable system
+                  design
                 </div>
               </div>
             </div>
-            <div className="flex items-start gap-3">
+            {/* <div className="flex items-start gap-3">
               <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
               <div>
                 <div className="font-medium">
@@ -75,7 +63,7 @@ export default function Home() {
                   Using technology to address environmental challenges
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -92,8 +80,9 @@ export default function Home() {
                   2021 - Present (<YearsSince startYear={2021} />)
                 </div>
                 <div className="text-sm mt-1">
-                  Building climate risk management platforms that help
-                  businesses navigate environmental challenges
+                  Building climate risk management platforms and scalable
+                  geospatial APIs; evolving services toward distributed
+                  processing.
                 </div>
               </div>
             </div>
@@ -108,13 +97,13 @@ export default function Home() {
               <h3 className="text-sm font-medium text-gray-200">Languages</h3>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  JavaScript
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  TypeScript
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Python
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Rust
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  JS/TS
                 </span>
               </div>
             </div>
@@ -136,13 +125,29 @@ export default function Home() {
               <h3 className="text-sm font-medium text-gray-200">Backend</h3>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Node.js
+                  Django
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  PostgreSQL
+                  FastAPI
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Docker
+                </span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-200">
+                Data & Systems
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  PostgreSQL / TimescaleDB
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  PostGIS
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Distributed Systems
                 </span>
               </div>
             </div>
@@ -160,6 +165,12 @@ export default function Home() {
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Linux
                 </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  MapServer
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Mapbox
+                </span>
               </div>
             </div>
           </div>
@@ -173,15 +184,40 @@ export default function Home() {
               <div className="text-sm text-gray-400 mt-1">
                 Enterprise platform helping businesses assess and manage
                 environmental risks
+                <br />
+                <span className="block mt-2 text-gray-400">
+                  Includes geospatial analytics, distributed processing
+                  workflows, raster data APIs, and scalable map tile delivery
+                  for interactive mapping experiences.
+                </span>
               </div>
             </div>
             <div>
+              <div className="font-medium">Global Building Footprints</div>
+              <div className="text-sm text-gray-400 mt-1">
+                Prepared and indexed trillions of building footprints in PostGIS
+                for sub-second spatial queries and large-scale analytics.
+              </div>
+            </div>
+            <div>
+              <div className="font-medium">Map Tile Service</div>
+              <div className="text-sm text-gray-400 mt-1">
+                MapServer + FastAPI service for authenticated, cached raster
+                tiles powering Mapbox-based web maps.
+              </div>
+            </div>
+            {/* <div>
               <div className="font-medium">Open Source Contributions</div>
               <div className="text-sm text-gray-400 mt-1">
                 Contributing to various open source projects in the JavaScript
                 ecosystem
+                <br />
+                <span className="block mt-2 text-gray-400">
+                  Includes work on geospatial data tools and climate tech
+                  libraries.
+                </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
