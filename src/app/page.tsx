@@ -14,7 +14,12 @@ export default function Home() {
         <div className="space-y-8 text-gray-300 leading-relaxed">
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <MapPin className="w-4 h-4" />
-            <span>Navi Mumbai, India</span>
+            <span>
+              Navi Mumbai, India{" "}
+              <span aria-label="India" role="img">
+                🇮🇳
+              </span>
+            </span>
           </div>
 
           <p>
