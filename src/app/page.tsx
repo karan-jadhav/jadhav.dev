@@ -126,7 +126,10 @@ export default function Home() {
                   Rust
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  JS/TS
+                  Go
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  JS / TS
                 </span>
               </div>
             </div>
@@ -140,7 +143,7 @@ export default function Home() {
                   Next.js
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Tailwind
+                  Tailwind CSS
                 </span>
               </div>
             </div>
@@ -154,42 +157,58 @@ export default function Home() {
                   FastAPI
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Docker
+                  Axum
                 </span>
               </div>
             </div>
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
-                Data & Systems
+                Cross-platform
               </h3>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  PostgreSQL / TimescaleDB
+                  Flutter
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  PostGIS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Distributed Systems
+                  Tauri
                 </span>
               </div>
             </div>
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
-                Cloud & Tools
+                Data & Storage
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  PostgreSQL
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Redis
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  RabbitMQ
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  AWS S3
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  MapServer
+                </span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-200">
+                Cloud & Infrastructure
               </h3>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   AWS
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Git
+                  Docker
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Linux
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  MapServer
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Mapbox
