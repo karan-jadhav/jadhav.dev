@@ -36,6 +36,35 @@ export default function Home() {
             understand and manage climate risk. I focus on practical, impactful
             engineering to help companies navigate environmental challenges.
           </p>
+
+          <p className="text-gray-300">
+            When I&apos;m not coding, you&apos;ll find me exploring new
+            technologies, contributing to open source projects, or thinking
+            about ways technology can solve real-world problems.
+          </p>
+
+          <p className="text-gray-300">
+            Feel free to reach out and say hi on{" "}
+            <a
+              href="https://x.com/IamKaranJadhav"
+              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Twitter <ExternalLink className="w-3 h-3" />
+            </a>{" "}
+            or{" "}
+            <a
+              href="https://www.linkedin.com/in/jadhav-karan/"
+              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn <ExternalLink className="w-3 h-3" />
+            </a>
+            . I&apos;m always open to connecting with like-minded individuals
+            and exploring new opportunities.
+          </p>
         </div>
 
         <div className="space-y-6">
@@ -53,17 +82,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <div className="font-medium">
-                  Contributing to open source climate tech projects
-                </div>
-                <div className="text-sm text-gray-400">
-                  Using technology to address environmental challenges
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
 
@@ -206,62 +224,22 @@ export default function Home() {
                 tiles powering Mapbox-based web maps.
               </div>
             </div>
-            {/* <div>
-              <div className="font-medium">Open Source Contributions</div>
-              <div className="text-sm text-gray-400 mt-1">
-                Contributing to various open source projects in the JavaScript
-                ecosystem
-                <br />
-                <span className="block mt-2 text-gray-400">
-                  Includes work on geospatial data tools and climate tech
-                  libraries.
-                </span>
-              </div>
-            </div> */}
           </div>
-        </div>
-
-        <div className="space-y-6">
-          <p className="text-gray-300">
-            When I&apos;m not coding, you&apos;ll find me exploring new
-            technologies, contributing to open source projects, or thinking
-            about ways technology can solve real-world problems.
-          </p>
-
-          <p className="text-gray-300">
-            Feel free to reach out and say hi on{" "}
-            <a
-              href="https://x.com/IamKaranJadhav"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Twitter <ExternalLink className="w-3 h-3" />
-            </a>{" "}
-            or{" "}
-            <a
-              href="https://www.linkedin.com/in/jadhav-karan/"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn <ExternalLink className="w-3 h-3" />
-            </a>
-            . I&apos;m always open to connecting with like-minded individuals
-            and exploring new opportunities.
-          </p>
         </div>
 
         <div className="pt-4 border-t border-gray-800">
           <p className="text-gray-400 text-sm flex items-center gap-2">
             <Mail className="w-4 h-4" />
-            Want to work together?{" "}
-            <a
-              href="mailto:karan@jadhav.dev"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-            >
-              Drop me a line
-            </a>
+            <span>
+              Open to high-impact collaborations, consulting, and OSS—drop me a
+              line{" "}
+              <a
+                href="mailto:karan@jadhav.dev"
+                className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
+              >
+                karan@jadhav.dev
+              </a>
+            </span>
           </p>
         </div>
       </div>
