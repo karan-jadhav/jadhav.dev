@@ -1,4 +1,4 @@
-import { ExternalLink, Mail, MapPin } from "lucide-react";
+import { ExternalLink, Mail, MapPin, Server } from "lucide-react";
 import YearsSince from "@/components/YearsSince";
 export const dynamic = "force-static";
 export default function Home() {
@@ -112,11 +112,64 @@ export default function Home() {
         {/* Skills */}
         <div className="space-y-6">
           <h2 className="text-xl font-light text-white">Skills</h2>
+          <div className="text-xs text-gray-500 flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
+            <span className="inline-flex items-center gap-1">
+              <span className="px-2 py-0.5 text-[10px] bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
+                Core Expertise
+              </span>
+              <span className="text-gray-500">
+                = primary skills across sections
+              </span>
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <span className="px-2 py-0.5 text-[10px] bg-gray-800 text-gray-300 rounded ring-1 ring-inset ring-gray-700/50">
+                Also work with
+              </span>
+              <span className="text-gray-500">
+                = other skills I use regularly
+              </span>
+            </span>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {/* Backend (Core) first */}
+            <div id="backend-core" className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-200 inline-flex items-center gap-2">
+                <Server className="w-4 h-4 text-blue-300" />
+                Backend
+                <span className="relative inline-flex items-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400/80 animate-pulse"></span>
+                </span>
+                <span
+                  className="ml-1 inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-blue-300 ring-1 ring-inset ring-blue-400/30"
+                  aria-label="Core skill"
+                >
+                  Core
+                </span>
+              </h3>
+              <div className="text-xs text-gray-400">
+                APIs & distributed systems
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
+                  Django
+                </span>
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
+                  FastAPI
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Axum
+                </span>
+              </div>
+            </div>
+
+            {/* Languages */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">Languages</h3>
+              <div className="text-xs text-gray-400">
+                General-purpose coding
+              </div>
               <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
                   Python
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
@@ -130,8 +183,11 @@ export default function Home() {
                 </span>
               </div>
             </div>
+
+            {/* Frontend */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">Frontend</h3>
+              <div className="text-xs text-gray-400">Web apps & interfaces</div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   React
@@ -147,24 +203,13 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">Backend</h3>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Django
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  FastAPI
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Axum
-                </span>
-              </div>
-            </div>
+
+            {/* Cross-platform */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
                 Cross-platform
               </h3>
+              <div className="text-xs text-gray-400">Mobile & desktop</div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Flutter
@@ -174,12 +219,15 @@ export default function Home() {
                 </span>
               </div>
             </div>
+
+            {/* Data & Storage */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
                 Data & Storage
               </h3>
+              <div className="text-xs text-gray-400">Databases & messaging</div>
               <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
                   PostgreSQL
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
@@ -196,12 +244,17 @@ export default function Home() {
                 </span>
               </div>
             </div>
+
+            {/* Cloud & Infrastructure */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
                 Cloud & Infrastructure
               </h3>
+              <div className="text-xs text-gray-400">
+                Deployment & operations
+              </div>
               <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
                   AWS
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
