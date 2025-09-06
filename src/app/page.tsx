@@ -67,8 +67,8 @@ export default function Home() {
             >
               LinkedIn <ExternalLink className="w-3 h-3" />
             </a>
-            . I&apos;m always open to connecting with like-minded individuals
-            and exploring new opportunities.
+            . I&apos;m always happy to connect, collaborate, and share
+            knowledge.
           </p>
         </div>
 
@@ -297,10 +297,11 @@ export default function Home() {
             <div>
               <div className="font-medium">Map Tile Service</div>
               <div className="text-sm text-gray-400 mt-1">
-                MapServer + FastAPI service for authenticated, cached raster
-                tiles powering Mapbox-based maps. Optimized delivery for
-                interactive geospatial applications, ensuring fast rendering and
-                reliability for enterprise mapping clients.
+                Terabyte-scale datasets served via MapServer + FastAPI with
+                authenticated, cached raster tiles powering Mapbox-based maps.
+                Optimized delivery for interactive geospatial applications,
+                ensuring fast rendering and reliability for enterprise mapping
+                clients.
               </div>
             </div>
           </div>
@@ -310,7 +311,7 @@ export default function Home() {
           <p className="text-gray-400 text-sm flex items-center gap-2">
             <Mail className="w-4 h-4" />
             <span>
-              Open to high-impact collaborations, consulting, and OSS—drop me a
+              Open to high-impact collaborations, consulting, and OSS, drop me a
               line{" "}
               <a
                 href="mailto:karan@jadhav.dev"
