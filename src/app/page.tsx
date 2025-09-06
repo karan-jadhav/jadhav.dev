@@ -1,4 +1,4 @@
-import { ExternalLink, Mail, MapPin, Calendar } from "lucide-react";
+import { ExternalLink, Mail, MapPin } from "lucide-react";
 import YearsSince from "@/components/YearsSince";
 export const dynamic = "force-static";
 export default function Home() {
@@ -82,8 +82,8 @@ export default function Home() {
                   Focusing on distributed systems (DDIA)
                 </div>
                 <div className="text-sm text-gray-400">
-                  Consistency models, data partitioning, and scalable system
-                  design
+                  Exploring consistency models, data partitioning strategies,
+                  and scalable system design.
                 </div>
               </div>
             </div>
@@ -93,20 +93,17 @@ export default function Home() {
         <div className="space-y-6">
           <h2 className="text-xl font-light text-white">Experience</h2>
           <div className="space-y-4 text-gray-300">
-            <div className="flex items-start gap-3">
-              <Calendar className="w-4 h-4 mt-1 text-gray-500" />
-              <div>
-                <div className="font-medium">
-                  Software Engineer at Intensel LTD
-                </div>
-                <div className="text-sm text-gray-400">
-                  2021 - Present (<YearsSince startYear={2021} />)
-                </div>
-                <div className="text-sm mt-1">
-                  Building climate risk management platforms and scalable
-                  geospatial APIs; evolving services toward distributed
-                  processing.
-                </div>
+            <div>
+              <div className="font-medium">
+                Software Engineer at Intensel LTD
+              </div>
+              <div className="text-sm text-gray-400">
+                2021 - Present (<YearsSince startYear={2021} />)
+              </div>
+              <div className="text-sm mt-1">
+                Building climate risk management platforms and geospatial APIs.
+                Focused on distributed workflows, scalable data processing, and
+                interactive mapping for real-time climate risk assessment.
               </div>
             </div>
           </div>
@@ -144,6 +141,9 @@ export default function Home() {
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Tailwind CSS
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Mapbox
                 </span>
               </div>
             </div>
@@ -210,9 +210,6 @@ export default function Home() {
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Linux
                 </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Mapbox
-                </span>
               </div>
             </div>
           </div>
@@ -225,12 +222,13 @@ export default function Home() {
               <div className="font-medium">Climate Risk Platform</div>
               <div className="text-sm text-gray-400 mt-1">
                 Enterprise platform helping businesses assess and manage
-                environmental risks
+                environmental risks.
                 <br />
                 <span className="block mt-2 text-gray-400">
-                  Includes geospatial analytics, distributed processing
-                  workflows, raster data APIs, and scalable map tile delivery
-                  for interactive mapping experiences.
+                  Built geospatial analytics, distributed processing workflows,
+                  and scalable APIs for interactive mapping. Enabled businesses
+                  across multiple regions to evaluate climate risk in real time,
+                  improving decision-making and resilience planning.
                 </span>
               </div>
             </div>
@@ -238,14 +236,18 @@ export default function Home() {
               <div className="font-medium">Global Building Footprints</div>
               <div className="text-sm text-gray-400 mt-1">
                 Prepared and indexed trillions of building footprints in PostGIS
-                for sub-second spatial queries and large-scale analytics.
+                for sub-second spatial queries. Delivered scalable analytics for
+                urban planning and climate risk assessment, supporting
+                large-scale geospatial datasets at national and global levels.
               </div>
             </div>
             <div>
               <div className="font-medium">Map Tile Service</div>
               <div className="text-sm text-gray-400 mt-1">
                 MapServer + FastAPI service for authenticated, cached raster
-                tiles powering Mapbox-based web maps.
+                tiles powering Mapbox-based maps. Optimized delivery for
+                interactive geospatial applications, ensuring fast rendering and
+                reliability for enterprise mapping clients.
               </div>
             </div>
           </div>
