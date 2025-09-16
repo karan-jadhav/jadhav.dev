@@ -234,6 +234,9 @@ export default function Home() {
                   Redis
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  DuckDB
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   RabbitMQ
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
