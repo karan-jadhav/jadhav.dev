@@ -1,4 +1,5 @@
-import { ExternalLink, Mail, MapPin, Server } from "lucide-react";
+import { ExternalLink, Mail, MapPin, Server, BookOpen } from "lucide-react";
+import Link from "next/link";
 import YearsSince from "@/components/YearsSince";
 export const dynamic = "force-static";
 export default function Home() {
@@ -9,6 +10,15 @@ export default function Home() {
           <h1 className="text-4xl font-light text-white mb-2">
             hey, I&apos;m Karan Jadhav <span className="wave-on-load">👋</span>
           </h1>
+          <div className="mt-4">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-blue-400 transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              Read my blog
+            </Link>
+          </div>
         </div>
 
         <div className="space-y-8 text-gray-300 leading-relaxed">
