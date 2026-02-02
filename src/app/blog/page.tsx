@@ -1,7 +1,7 @@
 import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 
 export const dynamic = "force-static";
 
@@ -81,6 +81,23 @@ export default function BlogPage() {
             ))}
           </div>
         )}
+
+        {/* Footer */}
+        <div className="mt-16 pt-4 border-t border-gray-800">
+          <p className="text-gray-400 text-sm flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            <span>
+              Open to high-impact collaborations, consulting, and OSS, drop me a
+              line{" "}
+              <a
+                href="mailto:karan@jadhav.dev"
+                className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
+              >
+                karan@jadhav.dev
+              </a>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );

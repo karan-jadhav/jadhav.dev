@@ -1,7 +1,7 @@
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { Mdx } from "@/components/mdx-components";
 
 export const dynamic = "force-static";
@@ -108,11 +108,25 @@ export default async function PostPage({ params }: PostPageProps) {
         <footer className="mt-20 pt-8 border-t border-gray-800/50">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-8"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>All posts</span>
           </Link>
+
+          <p className="text-gray-400 text-sm flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            <span>
+              Open to high-impact collaborations, consulting, and OSS, drop me a
+              line{" "}
+              <a
+                href="mailto:karan@jadhav.dev"
+                className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
+              >
+                karan@jadhav.dev
+              </a>
+            </span>
+          </p>
         </footer>
       </article>
     </div>
