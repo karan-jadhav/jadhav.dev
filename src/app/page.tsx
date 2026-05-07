@@ -1,22 +1,68 @@
-import { ExternalLink, Mail, MapPin, Server, BookOpen } from "lucide-react";
+import {
+  BookOpen,
+  ExternalLink,
+  FileText,
+  Github,
+  Mail,
+  MapPin,
+  Server,
+} from "lucide-react";
 import Link from "next/link";
 import YearsSince from "@/components/YearsSince";
 export const dynamic = "force-static";
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
-      <div className="max-w-2xl mx-auto space-y-16">
+      <div className="max-w-3xl mx-auto space-y-16">
         <div className="text-center">
           <h1 className="text-4xl font-light text-white mb-2">
             hey, I&apos;m Karan Jadhav <span className="wave-on-load">👋</span>
           </h1>
-          <div className="mt-4">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300">
+            Backend engineer building distributed geospatial data platforms,
+            high-performance APIs, and large-scale data infrastructure.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+            <a
+              href="/Karan_Jadhav_Resume.pdf"
+              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FileText className="w-4 h-4" />
+              Resume
+            </a>
+            <a
+              href="https://github.com/karan-jadhav"
+              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="w-4 h-4" />
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/jadhav-karan/"
+              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink className="w-4 h-4" />
+              LinkedIn
+            </a>
+            <a
+              href="mailto:karan@jadhav.dev"
+              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              Email
+            </a>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
             >
               <BookOpen className="w-4 h-4" />
-              Read my blog
+              Blog
             </Link>
           </div>
         </div>
@@ -33,8 +79,8 @@ export default function Home() {
           </div>
 
           <p>
-            Driven by a passion for building software that improves lives, I
-            love solving problems and creating things that make a difference.
+            I build backend systems for geospatial data, climate risk analytics,
+            distributed processing, and high-performance APIs.
           </p>
 
           <p>
@@ -47,9 +93,10 @@ export default function Home() {
             >
               Intensel LTD
             </a>{" "}
-            as a Software Engineer, building a platform that helps businesses
-            understand and manage climate risk. I focus on practical, impactful
-            engineering to help companies navigate environmental challenges.
+            as a Software Engineer, owning backend architecture, data
+            infrastructure, distributed job pipelines, and production APIs for a
+            climate risk platform used by enterprise customers across 10+
+            countries.
           </p>
 
           <p className="text-gray-300">
@@ -61,12 +108,12 @@ export default function Home() {
           <p className="text-gray-300">
             Feel free to reach out and say hi on{" "}
             <a
-              href="https://x.com/IamKaranJadhav"
+              href="https://github.com/karan-jadhav"
               className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Twitter <ExternalLink className="w-3 h-3" />
+              GitHub <ExternalLink className="w-3 h-3" />
             </a>{" "}
             or{" "}
             <a
@@ -80,6 +127,53 @@ export default function Home() {
             . I&apos;m always happy to connect, collaborate, and share
             knowledge.
           </p>
+        </div>
+
+        <div className="space-y-6">
+          <h2 className="text-xl font-light text-white">Selected impact</h2>
+          <div className="grid gap-4 sm:grid-cols-2 text-sm text-gray-300">
+            <div className="border-l border-blue-400/40 pl-4">
+              <div className="text-white font-medium">
+                2.3B+ geospatial records
+              </div>
+              <div className="text-gray-400 mt-1">
+                Engineered ingestion and query systems across 1.8 TB of indexed
+                data.
+              </div>
+            </div>
+            <div className="border-l border-blue-400/40 pl-4">
+              <div className="text-white font-medium">50K+ jobs/day</div>
+              <div className="text-gray-400 mt-1">
+                Operated RabbitMQ and Dask pipelines with retries, scheduling,
+                and async workers.
+              </div>
+            </div>
+            <div className="border-l border-blue-400/40 pl-4">
+              <div className="text-white font-medium">
+                Minutes to single-digit milliseconds
+              </div>
+              <div className="text-gray-400 mt-1">
+                Reduced critical query latency through PostGIS indexing and
+                query optimization.
+              </div>
+            </div>
+            <div className="border-l border-blue-400/40 pl-4">
+              <div className="text-white font-medium">p99 under 200ms</div>
+              <div className="text-gray-400 mt-1">
+                Built FastAPI and Django APIs with caching strategies for
+                production load.
+              </div>
+            </div>
+            <div className="border-l border-blue-400/40 pl-4 sm:col-span-2">
+              <div className="text-white font-medium">
+                AWS production operations
+              </div>
+              <div className="text-gray-400 mt-1">
+                Managed infrastructure across EC2, S3, RDS, SQS, Lambda, and
+                CloudWatch.
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -111,9 +205,10 @@ export default function Home() {
                 2021 - Present (<YearsSince startYear={2021} />)
               </div>
               <div className="text-sm mt-1">
-                Building climate risk management platforms and geospatial APIs.
-                Focused on distributed workflows, scalable data processing, and
-                interactive mapping for real-time climate risk assessment.
+                Own backend architecture and data infrastructure for a climate
+                risk platform serving enterprise customers across 10+ countries.
+                Focused on distributed workflows, large-scale geospatial data,
+                low-latency APIs, AWS operations, and production reliability.
               </div>
             </div>
           </div>
@@ -287,41 +382,41 @@ export default function Home() {
             <div>
               <div className="font-medium">Climate Risk Platform</div>
               <div className="text-sm text-gray-400 mt-1">
-                Enterprise platform helping businesses assess and manage
-                environmental risks.
-                <br />
-                <span className="block mt-2 text-gray-400">
-                  Built geospatial analytics, distributed processing workflows,
-                  and scalable APIs for interactive mapping. Enabled businesses
-                  across multiple regions to evaluate climate risk in real time,
-                  improving decision-making and resilience planning.
-                </span>
+                Owned backend systems for an enterprise climate risk platform
+                serving customers across 10+ countries, combining distributed
+                processing, geospatial analytics, interactive maps, and
+                production observability.
               </div>
             </div>
             <div>
               <div className="font-medium">Global Building Footprints</div>
               <div className="text-sm text-gray-400 mt-1">
-                Prepared and indexed trillions of building footprints in PostGIS
-                for sub-second spatial queries. Delivered scalable analytics for
-                urban planning and climate risk assessment, supporting
-                large-scale geospatial datasets at national and global levels.
+                Prepared and indexed 2.3B+ building footprints in PostGIS for
+                sub-second spatial queries, enabling enterprise analytics on 1.8
+                TB of indexed geospatial data.
               </div>
             </div>
             <div>
               <div className="font-medium">Map Tile Service</div>
               <div className="text-sm text-gray-400 mt-1">
-                Terabyte-scale datasets served via MapServer + FastAPI with
-                authenticated, cached raster tiles powering Mapbox-based maps.
-                Optimized delivery for interactive geospatial applications,
-                ensuring fast rendering and reliability for enterprise mapping
-                clients.
+                Built a tile delivery service for 5.3 TB+ raster datasets using
+                MapServer, FastAPI, caching, and authenticated access, improving
+                map rendering reliability for enterprise geospatial workflows.
+              </div>
+            </div>
+            <div>
+              <div className="font-medium">RediServe</div>
+              <div className="text-sm text-gray-400 mt-1">
+                Built an async HTTP API for Redis in Rust with Axum and Tokio,
+                focused on connection pooling, low-latency request handling, and
+                efficient backend service design.
               </div>
             </div>
           </div>
         </div>
 
         <div className="pt-4 border-t border-gray-800">
-          <p className="text-gray-400 text-sm flex items-center gap-2">
+          <p className="text-gray-400 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
             <Mail className="w-4 h-4" />
             <span>
               Open to high-impact collaborations, consulting, and OSS, drop me a
@@ -333,6 +428,24 @@ export default function Home() {
                 karan@jadhav.dev
               </a>
             </span>
+            <span className="text-gray-600">/</span>
+            <a
+              href="/Karan_Jadhav_Resume.pdf"
+              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View resume
+            </a>
+            <span className="text-gray-600">/</span>
+            <a
+              href="https://github.com/karan-jadhav"
+              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
           </p>
         </div>
       </div>
