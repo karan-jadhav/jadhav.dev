@@ -37,14 +37,13 @@ then process records
 
 For a large JSON array, that can become expensive before business logic even runs.
 
-<Image
+<Figure
   src="/blog/large-json-python/json-array-vs-jsonl.png"
   alt="JSON array compared with JSONL streaming"
   width={1672}
   height={941}
+  caption="Large JSON array processing has to parse and materialize the full document before records can be processed. JSONL lets the program read, parse, and process one record at a time."
 />
-
-*Screenshot 1: one large JSON array vs JSONL. The important difference is whether the program needs the full structure in memory before processing.*
 
 ## Setup
 
@@ -52,6 +51,11 @@ I ran the benchmark on an AWS EC2 `m7i.xlarge` instance.
 
 ```text
 Instance: AWS EC2 m7i.xlarge
+Region: ap-south-1
+Python: 3.13.13
+CPU: 4 vCPU, Intel Xeon Platinum 8488C
+Memory: 15 GiB
+Root disk: 48 GiB
 Records: 2,000,000
 Input shapes: JSON array and JSONL
 Parsers: Python json and simdjson
@@ -65,14 +69,7 @@ vs
 JSONL streamed one record at a time
 ```
 
-<Image
-  src="/blog/large-json-python/machine-info.png"
-  alt="Machine information from the EC2 benchmark instance"
-  width={1096}
-  height={463}
-/>
-
-*Screenshot 2: EC2 instance, Python version, CPU, and memory.*
+The exact numbers will vary with schema, CPU, disk cache, parser version, and the work done in `process()`. The important signal here is the difference between full materialization and streaming.
 
 ## Files
 
@@ -98,14 +95,16 @@ The other file was JSONL:
 
 JSONL is less fancy, but it is easier to process incrementally.
 
-<Image
-  src="/blog/large-json-python/file-sizes.png"
-  alt="Generated JSON array and JSONL file sizes"
-  width={746}
-  height={171}
-/>
+```bash
+$ tree --du -h
+[1.6G]  .
+├── [822M]  large_array.json
+└── [820M]  large_events.jsonl
 
-*Screenshot 3: generated file sizes from the EC2 instance.*
+1.6G used in 1 directory, 2 files
+```
+
+The files are roughly the same size on disk. The large difference shows up during processing, when one path materializes the full array and the other keeps memory flat.
 
 ## Methods Compared
 
@@ -139,15 +138,6 @@ simdjson_load_array   | 2,000,000 | 6.451        | 310,017            | 7367.77
 jsonl_stdlib_stream   | 2,000,000 | 5.381        | 371,672            | 24.69
 jsonl_simdjson_stream | 2,000,000 | 2.832        | 706,249            | 24.94
 ```
-
-<Image
-  src="/blog/large-json-python/benchmark-output.png"
-  alt="Benchmark output table from the EC2 run"
-  width={1142}
-  height={207}
-/>
-
-*Screenshot 4: benchmark output from the EC2 run.*
 
 The JSONL streaming versions stayed around 25 MB peak RSS.
 
@@ -252,11 +242,7 @@ A single huge JSON array is easier to pass around as one object. But once the fi
 
 ## Code
 
-The benchmark code is here:
-
-```text
-GitHub repository link placeholder
-```
+The benchmark code is available on [GitHub](https://github.com/karan-jadhav/json-ingestion-notes).
 
 ## Takeaway
 

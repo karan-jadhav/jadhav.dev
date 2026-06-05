@@ -63,7 +63,7 @@ const components = {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-zinc-200 border-b border-zinc-600 hover:border-zinc-400 transition-colors inline-flex items-center gap-0.5"
+          className="inline-flex items-center gap-0.5 border-b border-zinc-600 text-zinc-200 no-underline transition-colors hover:border-zinc-400"
           {...props}
         >
           {children}
@@ -74,7 +74,7 @@ const components = {
     return (
       <Link
         href={href || "#"}
-        className="text-zinc-200 border-b border-zinc-600 hover:border-zinc-400 transition-colors"
+        className="border-b border-zinc-600 text-zinc-200 no-underline transition-colors hover:border-zinc-400"
         {...props}
       >
         {children}
@@ -110,8 +110,12 @@ const components = {
       {children}
     </blockquote>
   ),
-  code: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => {
-    const isInline = !props.className?.includes("language-");
+  code: ({
+    children,
+    ...props
+  }: React.HTMLAttributes<HTMLElement> & { "data-language"?: string }) => {
+    const isInline =
+      !props.className?.includes("language-") && !props["data-language"];
     if (isInline) {
       return (
         <code
@@ -126,7 +130,7 @@ const components = {
   },
   pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
     <pre
-      className="bg-[#0a0a0a] border border-zinc-800/60 rounded-xl p-5 overflow-x-auto my-8 text-sm"
+      className="border border-zinc-800/70 rounded-lg overflow-x-auto my-7 text-sm"
       {...props}
     >
       {children}
@@ -176,6 +180,28 @@ const components = {
       className="rounded-xl border border-zinc-800/60 my-8"
       {...props}
     />
+  ),
+  Figure: ({
+    caption,
+    src,
+    alt,
+    width,
+    height,
+    ...props
+  }: React.ComponentProps<typeof Image> & { caption: React.ReactNode }) => (
+    <figure className="my-8">
+      <Image
+        src={src}
+        alt={alt || ""}
+        width={width || 800}
+        height={height || 400}
+        className="rounded-xl border border-zinc-800/60"
+        {...props}
+      />
+      <figcaption className="mt-3 text-sm leading-relaxed text-zinc-500">
+        {caption}
+      </figcaption>
+    </figure>
   ),
   Callout: ({
     children,
