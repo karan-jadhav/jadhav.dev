@@ -1,0 +1,273 @@
+---
+title: "Large JSON in Python: Parser Speed Is Not the Whole Problem"
+description: "A benchmark-driven look at why large JSON ingestion in Python is often more about memory shape than raw parser speed."
+date: 2026-06-05
+tags: ["python", "json", "performance", "data-engineering"]
+published: true
+---
+
+Large JSON ingestion in Python usually gets discussed as a parser-speed problem.
+
+That is only part of it.
+
+For large files, the bigger issue can be memory shape.
+
+The normal code for a JSON array looks like this:
+
+```python
+import json
+
+with open("large_array.json") as f:
+    records = json.load(f)
+
+for record in records:
+    process(record)
+```
+
+This is simple and fine for small files. But `json.load()` has to build the full Python object before useful processing starts.
+
+So the real flow is:
+
+```text
+read file
+parse full JSON
+create Python dict/list objects for everything
+then process records
+```
+
+For a large JSON array, that can become expensive before business logic even runs.
+
+<Image
+  src="/blog/large-json-python/json-array-vs-jsonl.png"
+  alt="JSON array compared with JSONL streaming"
+  width={1672}
+  height={941}
+/>
+
+*Screenshot 1: one large JSON array vs JSONL. The important difference is whether the program needs the full structure in memory before processing.*
+
+## Setup
+
+I ran the benchmark on an AWS EC2 `m7i.xlarge` instance.
+
+```text
+Instance: AWS EC2 m7i.xlarge
+Records: 2,000,000
+Input shapes: JSON array and JSONL
+Parsers: Python json and simdjson
+```
+
+The goal was not to create a perfect benchmark. The goal was to compare the processing shape:
+
+```text
+full JSON array materialized in memory
+vs
+JSONL streamed one record at a time
+```
+
+<Image
+  src="/blog/large-json-python/machine-info.png"
+  alt="Machine information from the EC2 benchmark instance"
+  width={1096}
+  height={463}
+/>
+
+*Screenshot 2: EC2 instance, Python version, CPU, and memory.*
+
+## Files
+
+I generated two files with the same kind of synthetic event data.
+
+One file was a single large JSON array:
+
+```json
+[
+  {"id": 1, "event_type": "search"},
+  {"id": 2, "event_type": "upload"},
+  {"id": 3, "event_type": "ask_ai"}
+]
+```
+
+The other file was JSONL:
+
+```json
+{"id": 1, "event_type": "search"}
+{"id": 2, "event_type": "upload"}
+{"id": 3, "event_type": "ask_ai"}
+```
+
+JSONL is less fancy, but it is easier to process incrementally.
+
+<Image
+  src="/blog/large-json-python/file-sizes.png"
+  alt="Generated JSON array and JSONL file sizes"
+  width={746}
+  height={171}
+/>
+
+*Screenshot 3: generated file sizes from the EC2 instance.*
+
+## Methods Compared
+
+I compared four methods:
+
+```text
+json_load_array
+simdjson_load_array
+jsonl_stdlib_stream
+jsonl_simdjson_stream
+```
+
+The benchmark measured:
+
+```text
+records processed
+time taken
+records per second
+peak RSS memory
+```
+
+## Result
+
+This was the result from the EC2 run:
+
+```text
+method                | records   | time_seconds | records_per_second | peak_rss_mb
+----------------------+-----------+--------------+--------------------+------------
+json_load_array       | 2,000,000 | 5.901        | 338,899            | 3457.62
+simdjson_load_array   | 2,000,000 | 6.451        | 310,017            | 7367.77
+jsonl_stdlib_stream   | 2,000,000 | 5.381        | 371,672            | 24.69
+jsonl_simdjson_stream | 2,000,000 | 2.832        | 706,249            | 24.94
+```
+
+<Image
+  src="/blog/large-json-python/benchmark-output.png"
+  alt="Benchmark output table from the EC2 run"
+  width={1142}
+  height={207}
+/>
+
+*Screenshot 4: benchmark output from the EC2 run.*
+
+The JSONL streaming versions stayed around 25 MB peak RSS.
+
+The full-array versions used multiple GB.
+
+`simdjson` was fastest in the JSONL streaming case. But the full-array `simdjson` version still had high memory usage because the code parsed the full file and converted it into Python objects with `recursive=True`.
+
+That is the point.
+
+A faster parser helps when parsing is the bottleneck. It does not automatically fix a pipeline that materializes too much data at once.
+
+## Code Difference
+
+The full-array version:
+
+```python
+def method_json_load_array(path):
+    with path.open("r", encoding="utf-8") as f:
+        records = json.load(f)
+
+    total = 0
+
+    for record in records:
+        process(record)
+        total += 1
+
+    return total
+```
+
+The important detail is this line:
+
+```python
+records = json.load(f)
+```
+
+At that point, the full parsed structure exists in memory.
+
+The JSONL streaming version:
+
+```python
+def method_jsonl_stdlib_stream(path):
+    total = 0
+
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            record = json.loads(line)
+            process(record)
+            total += 1
+
+    return total
+```
+
+Here, the program only needs one record at a time.
+
+## What I Would Check First
+
+For large ingestion jobs, I would not start with:
+
+```text
+Which parser is fastest?
+```
+
+I would start with:
+
+```text
+Do we need to load all of this at once?
+```
+
+The questions I would check first:
+
+```text
+Can the producer send JSONL?
+Can we process records in batches?
+Can we checkpoint progress?
+Can failed batches be retried?
+Can output be written incrementally?
+Do we need the full document in memory?
+```
+
+Parser choice still matters. But the data shape decides how predictable the system is.
+
+## Why JSONL Works Well for Ingestion
+
+JSONL is boring.
+
+That is why it works well.
+
+Each line is one record. That makes it easier to:
+
+```text
+stream records
+batch writes
+checkpoint progress
+retry failed batches
+resume processing
+split files
+process in workers
+keep memory stable
+```
+
+A single huge JSON array is easier to pass around as one object. But once the file becomes large, it is harder to operate.
+
+## Code
+
+The benchmark code is here:
+
+```text
+GitHub repository link placeholder
+```
+
+## Takeaway
+
+For large JSON ingestion in Python, parser speed is only part of the problem.
+
+The bigger question is the processing shape.
+
+A faster parser can reduce parse time. But predictable memory usage usually comes from not loading everything at once.
+
+For large files, I would rather have a boring pipeline that streams records, writes in batches, checkpoints progress, and can be retried safely.
+
+Fast is good.
+
+Predictable is better.
