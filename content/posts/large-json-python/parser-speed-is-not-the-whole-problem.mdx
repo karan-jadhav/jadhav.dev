@@ -28,12 +28,10 @@ This is simple and fine for small files. But `json.load()` has to build the full
 
 So the real flow is:
 
-```text
-read file
-parse full JSON
-create Python dict/list objects for everything
-then process records
-```
+- read the file
+- parse the full JSON document
+- create Python dict/list objects for everything
+- then process records
 
 For a large JSON array, that can become expensive before business logic even runs.
 
@@ -49,25 +47,22 @@ For a large JSON array, that can become expensive before business logic even run
 
 I ran the benchmark on an AWS EC2 `m7i.xlarge` instance.
 
-```text
-Instance: AWS EC2 m7i.xlarge
-Region: ap-south-1
-Python: 3.13.13
-CPU: 4 vCPU, Intel Xeon Platinum 8488C
-Memory: 15 GiB
-Root disk: 48 GiB
-Records: 2,000,000
-Input shapes: JSON array and JSONL
-Parsers: Python json and simdjson
-```
+| Detail | Value |
+| --- | --- |
+| Instance | AWS EC2 `m7i.xlarge` |
+| Region | `ap-south-1` |
+| Python | `3.13.13` |
+| CPU | 4 vCPU, Intel Xeon Platinum 8488C |
+| Memory | 15 GiB |
+| Root disk | 48 GiB |
+| Records | 2,000,000 |
+| Input shapes | JSON array and JSONL |
+| Parsers | Python `json` and `simdjson` |
 
 The goal was not to create a perfect benchmark. The goal was to compare the processing shape:
 
-```text
-full JSON array materialized in memory
-vs
-JSONL streamed one record at a time
-```
+- full JSON array materialized in memory
+- JSONL streamed one record at a time
 
 The exact numbers will vary with schema, CPU, disk cache, parser version, and the work done in `process()`. The important signal here is the difference between full materialization and streaming.
 
@@ -110,34 +105,28 @@ The files are roughly the same size on disk. The large difference shows up durin
 
 I compared four methods:
 
-```text
-json_load_array
-simdjson_load_array
-jsonl_stdlib_stream
-jsonl_simdjson_stream
-```
+- `json_load_array`
+- `simdjson_load_array`
+- `jsonl_stdlib_stream`
+- `jsonl_simdjson_stream`
 
 The benchmark measured:
 
-```text
-records processed
-time taken
-records per second
-peak RSS memory
-```
+- records processed
+- time taken
+- records per second
+- peak RSS memory
 
 ## Result
 
 This was the result from the EC2 run:
 
-```text
-method                | records   | time_seconds | records_per_second | peak_rss_mb
-----------------------+-----------+--------------+--------------------+------------
-json_load_array       | 2,000,000 | 5.901        | 338,899            | 3457.62
-simdjson_load_array   | 2,000,000 | 6.451        | 310,017            | 7367.77
-jsonl_stdlib_stream   | 2,000,000 | 5.381        | 371,672            | 24.69
-jsonl_simdjson_stream | 2,000,000 | 2.832        | 706,249            | 24.94
-```
+| Method | Records | Time seconds | Records per second | Peak RSS MB |
+| --- | ---: | ---: | ---: | ---: |
+| `json_load_array` | 2,000,000 | 5.901 | 338,899 | 3457.62 |
+| `simdjson_load_array` | 2,000,000 | 6.451 | 310,017 | 7367.77 |
+| `jsonl_stdlib_stream` | 2,000,000 | 5.381 | 371,672 | 24.69 |
+| `jsonl_simdjson_stream` | 2,000,000 | 2.832 | 706,249 | 24.94 |
 
 The JSONL streaming versions stayed around 25 MB peak RSS.
 
@@ -196,26 +185,20 @@ Here, the program only needs one record at a time.
 
 For large ingestion jobs, I would not start with:
 
-```text
-Which parser is fastest?
-```
+> Which parser is fastest?
 
 I would start with:
 
-```text
-Do we need to load all of this at once?
-```
+> Do we need to load all of this at once?
 
 The questions I would check first:
 
-```text
-Can the producer send JSONL?
-Can we process records in batches?
-Can we checkpoint progress?
-Can failed batches be retried?
-Can output be written incrementally?
-Do we need the full document in memory?
-```
+- Can the producer send JSONL?
+- Can we process records in batches?
+- Can we checkpoint progress?
+- Can failed batches be retried?
+- Can output be written incrementally?
+- Do we need the full document in memory?
 
 Parser choice still matters. But the data shape decides how predictable the system is.
 
@@ -227,16 +210,14 @@ That is why it works well.
 
 Each line is one record. That makes it easier to:
 
-```text
-stream records
-batch writes
-checkpoint progress
-retry failed batches
-resume processing
-split files
-process in workers
-keep memory stable
-```
+- stream records
+- batch writes
+- checkpoint progress
+- retry failed batches
+- resume processing
+- split files
+- process in workers
+- keep memory stable
 
 A single huge JSON array is easier to pass around as one object. But once the file becomes large, it is harder to operate.
 
