@@ -100,20 +100,14 @@ export default function Home() {
           </p>
 
           <p className="text-gray-300">
-            When I&apos;m not coding, you&apos;ll find me exploring new
-            technologies, contributing to open source projects, or thinking
-            about ways technology can solve real-world problems.
-          </p>
-
-          <p className="text-gray-300">
             Feel free to reach out and say hi on{" "}
             <a
-              href="https://github.com/karan-jadhav"
+              href="https://x.com/IamKaranJadhav"
               className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
               target="_blank"
               rel="noopener noreferrer"
             >
-              GitHub <ExternalLink className="w-3 h-3" />
+              X <ExternalLink className="w-3 h-3" />
             </a>{" "}
             or{" "}
             <a
@@ -176,7 +170,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        {/* <div className="space-y-6">
           <h2 className="text-xl font-light text-white">Currently</h2>
           <div className="space-y-3 text-gray-300">
             <div className="flex items-start gap-3">
@@ -192,7 +186,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="space-y-6">
           <h2 className="text-xl font-light text-white">Experience</h2>
