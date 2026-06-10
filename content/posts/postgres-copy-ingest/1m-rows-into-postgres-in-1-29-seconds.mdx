@@ -1,0 +1,292 @@
+---
+title: "1M Rows Into Postgres in 1.29 Seconds"
+description: "A benchmark-driven look at how much the PostgreSQL write path matters when loading large datasets."
+date: 2026-06-10
+tags: ["postgresql", "performance", "data-engineering"]
+published: true
+---
+
+I wanted to see how far I could push PostgreSQL ingest without turning the benchmark into a large production system.
+
+Not "how fast is `INSERT` vs `COPY`" in theory.
+
+A more practical question:
+
+> If I have a large CSV file, how much does the write path matter?
+
+I used 1M GitHub event rows and loaded the same file into PostgreSQL 18 in a few different ways.
+
+The slowest path took **16.95 minutes**.
+
+The fastest path took **1.29 seconds**.
+
+## Setup
+
+I ran the benchmark on an AWS EC2 `m7i.2xlarge` instance.
+
+| Detail | Value |
+| --- | --- |
+| Instance | AWS EC2 `m7i.2xlarge` |
+| Region | `ap-south-1` |
+| PostgreSQL | `18.4` |
+| Docker image | `postgres:18` |
+| Disk | 100 GiB gp3 |
+| IOPS | 8,000 |
+| Throughput | 500 MiB/s |
+| Runs per method | 3 |
+| Result used | Median ingest time |
+
+The goal was not to create a perfect database benchmark. The goal was to compare the write path:
+
+- row-by-row `INSERT`
+- batched `INSERT`
+- logged `COPY`
+- unlogged `COPY`
+- raw landing `COPY`
+
+The exact numbers will vary with schema, hardware, disk cache, Postgres config, and client implementation. The important signal here is the difference between slow per-row writes and bulk landing paths.
+
+## Dataset
+
+The input was a CSV generated from public GitHub Events data.
+
+| Detail | Value |
+| --- | ---: |
+| Rows | 1,000,000 |
+| Size | ~250 MB |
+
+For every benchmark method, the runner created a fresh PostgreSQL Docker volume.
+
+That means each method started with a clean Postgres data directory, WAL state, and table state.
+
+It did not clear the host OS page cache. I used repeated runs and medians instead of trusting one run.
+
+## Methods Compared
+
+I compared five methods:
+
+- `naive_insert`
+- `batched_insert`
+- `production_copy`
+- `unlogged_copy`
+- `raw_landing_copy`
+
+The benchmark measured:
+
+- ingest time
+- rows per second
+- speedup compared with naive `INSERT`
+
+## Result
+
+This was the result from the EC2 run:
+
+| Method | Ingest median | Rows/sec | Speedup |
+| --- | ---: | ---: | ---: |
+| `naive_insert` | 16.95 min | 983 | 1.0x |
+| `batched_insert` | 30.37 s | 32,927 | 33.5x |
+| `production_copy` | 3.91 s | 255,754 | 260.1x |
+| `unlogged_copy` | 3.24 s | 308,642 | 313.9x |
+| `raw_landing_copy` | 1.29 s | 775,194 | 788.4x |
+
+The important part is not just that `COPY` was faster.
+
+The important part is how much performance came from changing the write shape.
+
+## Method Differences
+
+### Naive INSERT
+
+This is the bad path:
+
+- one row at a time
+- autocommit on
+- one commit per row
+
+For 1M rows, this took:
+
+```text
+16.95 minutes
+983 rows/sec
+```
+
+This is not surprising, but it is a useful baseline.
+
+A lot of ingestion code still accidentally looks like this. Not always literally one row at a time, but close enough: too many round trips, too many commits, too much per-row overhead.
+
+### Batched INSERT
+
+Next I used multi-row `INSERT`.
+
+Same data. Same table. Still typed columns.
+
+This dropped the load time from **16.95 minutes** to **30.37 seconds**.
+
+That is already a **33.5x** improvement.
+
+The database did not become magical here. The client just stopped talking to Postgres one row at a time.
+
+This is usually the first thing I check in ingestion code:
+
+- Are we sending rows one by one?
+- Are we committing too often?
+- Can this be batched?
+
+### Production COPY
+
+Then I used PostgreSQL `COPY`.
+
+This loaded the same typed table in:
+
+```text
+3.91 seconds
+255,754 rows/sec
+```
+
+The table used real types:
+
+| Column | Type |
+| --- | --- |
+| `event_id` | `text` |
+| `event_type` | `text` |
+| `actor_id` | `bigint` |
+| `repo_id` | `bigint` |
+| `created_at` | `timestamptz` |
+| `is_public` | `boolean` |
+| `payload` | `jsonb` |
+
+Compared with naive `INSERT`, this was **260.1x faster**.
+
+This is the part people usually know:
+
+> Use `COPY` for bulk loading.
+
+And yes, that advice is correct.
+
+But this was not the most interesting result.
+
+### UNLOGGED COPY
+
+Next I used an `UNLOGGED` table.
+
+This is not the same durability model as a normal logged table. If Postgres crashes, an unlogged table can be truncated. I would not use it blindly for final production data.
+
+But for staging data, temporary ingest pipelines, replayable files, or rebuildable intermediate tables, it can be a valid option.
+
+This loaded in:
+
+```text
+3.24 seconds
+308,642 rows/sec
+```
+
+That is faster than logged `COPY`, but not by a huge amount in this run.
+
+The bigger jump had already happened when moving from `INSERT` to `COPY`.
+
+### Raw Landing COPY
+
+This was the fastest result:
+
+```text
+1.29 seconds
+775,194 rows/sec
+```
+
+But this needs context.
+
+This method did not load into the final typed table. It loaded the same CSV into a raw landing table where every column was `text`.
+
+So during the hot ingest path, Postgres was not parsing:
+
+| Final type skipped during landing |
+| --- |
+| `bigint` |
+| `timestamptz` |
+| `boolean` |
+| `jsonb` |
+
+It was just landing text.
+
+That is why this result is labeled as lab-only or staging-only. This is not the table I would query from.
+
+It is the first table in the pipeline. Land the data first, then validate and transform after.
+
+For some ingestion-heavy systems, that shape matters more than another config tweak.
+
+## Why This Matters
+
+After `COPY`, I expected less room for improvement.
+
+But the raw landing result was still much faster:
+
+```text
+Production COPY:   3.91 s
+Raw landing COPY:  1.29 s
+```
+
+That means type conversion was still visible.
+
+Not as visible as row-by-row commits. Not as visible as client/server round trips. But visible.
+
+And this is easy to miss because people usually discuss ingestion as a database problem only.
+
+Sometimes it is also a data-shape problem.
+
+## What I Would Check First
+
+For large ingestion jobs, I would not start with:
+
+> Which Postgres setting should I tune?
+
+I would start with:
+
+> What write shape does this pipeline use?
+
+The questions I would check first:
+
+- Can this be `COPY` instead of `INSERT`?
+- Can writes be batched?
+- Does this stage need full durability?
+- Can raw data land before type conversion?
+- Can validation and transformation happen after landing?
+
+The answer is not always "use raw text".
+
+If the table must be query-ready immediately, typed `COPY` is the better result to care about.
+
+In this benchmark, that was still good:
+
+```text
+1M rows in 3.91 seconds
+```
+
+But if the system already has a staging step, raw landing can be a useful pattern.
+
+## Code
+
+The benchmark code and raw results are available on [GitHub](https://github.com/karan-jadhav/postgres-1m-ingestion-benchmark).
+
+## What This Does Not Claim
+
+This benchmark does not claim:
+
+- every Postgres workload can ingest 1M rows in 1.29 seconds
+- downstream validation and transformation are free
+- index creation is included
+- the host OS page cache was cleared between runs
+- unlogged tables are safe for final durable data
+
+The benchmark is narrower than that.
+
+It measures one thing:
+
+> How fast can the same input data land in Postgres when the write path changes?
+
+## Takeaway
+
+The fastest path was **788.4x faster** than naive `INSERT`.
+
+Postgres was not the limiting factor in the slow version.
+
+The write path was.
