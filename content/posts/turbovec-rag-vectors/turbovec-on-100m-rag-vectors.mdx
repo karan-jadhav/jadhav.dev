@@ -1,0 +1,179 @@
+---
+title: "TurboVec on 100M RAG Vectors"
+description: "A benchmark-driven look at what happens when vector compression moves from 10M scale to 100M scale."
+date: 2026-06-13
+tags: ["rag", "vector-search", "performance"]
+published: true
+---
+
+TurboVec is getting attention for a simple reason:
+
+A 10M-document float32 index can take around 31GB.
+
+TurboVec can fit it into about 4GB.
+
+I wanted to test the next question:
+
+> What happens at 100M RAG vectors?
+
+Not a toy dataset.
+
+Not a small local benchmark.
+
+I used the MS MARCO Web Search vector dataset and built TurboVec indexes at 1M, 10M, and full 100M scale.
+
+The full float32 payload was 310GB.
+
+The 4-bit TurboVec index was 37GB.
+
+## Setup
+
+I ran the benchmark on AWS EC2.
+
+| Detail | Value |
+| --- | ---: |
+| Instance | AWS EC2 `i7i.8xlarge` |
+| Dataset | MS MARCO Web Search vectors |
+| Vectors | 101,070,374 |
+| Dimensions | 768 |
+| Raw float32 size | 310.5GB |
+| Checkpoints | 1M, 10M, full |
+| Indexes tested | TurboVec 2-bit, TurboVec 4-bit |
+| Metric | Recall@10 against ground truth |
+
+The goal was not to create a perfect vector database benchmark.
+
+The goal was narrower:
+
+> How much can TurboVec compress a 100M-vector corpus, and what tradeoff shows up in recall and search latency?
+
+## Result
+
+This was the full-scale result:
+
+| Method | Index size | Compression | Recall@10 | p50 search |
+| --- | ---: | ---: | ---: | ---: |
+| float32 | 310GB | 1.0x | exact | - |
+| TurboVec 2-bit | 18.9GB | 15.7x | 0.608 | 3.19s |
+| TurboVec 4-bit | 37.4GB | 7.9x | 0.914 | 5.67s |
+
+The storage result is strong.
+
+310GB of float32 vectors became a 37GB 4-bit index.
+
+That is the number I would pay attention to for RAG systems.
+
+The 2-bit result is more eye-catching:
+
+```text
+18.9GB for 100M vectors
+```
+
+But the recall drop is large.
+
+For most retrieval pipelines, I would not treat 0.608 recall@10 as the main result.
+
+The 4-bit index is the more practical one in this run.
+
+It kept the full 100M-vector index under 40GB and still reached 91.4% recall@10.
+
+## Scaling
+
+I also measured the same setup at 1M and 10M checkpoints.
+
+For 4-bit TurboVec:
+
+| Vectors | Index size | Recall@10 | p50 search |
+| ---: | ---: | ---: | ---: |
+| 1M | 370MB | 0.899 | 53.7ms |
+| 10M | 3.7GB | 0.904 | 562ms |
+| 101M | 37.4GB | 0.914 | 5.67s |
+
+The compression scaled cleanly.
+
+The latency also scaled with the corpus size.
+
+That part matters.
+
+At 100M vectors, the index was much smaller than float32, but the search was still operating over a much larger corpus.
+
+The storage win was clear.
+
+The latency still reminded me I was searching 100M vectors.
+
+## Measurement Notes
+
+The latency numbers were measured with 300 sampled queries, repeated 3 times.
+
+Recall@10 used 1000 sampled queries against the provided ground truth.
+
+The full 4-bit index took about 66 minutes to build.
+
+After loading and preparing the full 4-bit index, the benchmark process used about 73 GiB RSS.
+
+That memory number is query-side prepared RSS, not the persisted index size.
+
+The persisted 4-bit index file was 37.4GB.
+
+## 2-Bit vs 4-Bit
+
+The useful comparison was not just "smaller is better."
+
+It was:
+
+| Bit width | What happened |
+| --- | --- |
+| 2-bit | Very small index, large recall drop |
+| 4-bit | Larger index, much better recall |
+
+2-bit compressed the full corpus to 18.9GB.
+
+That is hard to ignore.
+
+But for RAG, the 4-bit result looked more realistic.
+
+It used about twice the storage of 2-bit, but recall@10 moved from 0.608 to 0.914.
+
+That is the tradeoff I would rather start from.
+
+## Code
+
+The benchmark code is available on [GitHub](https://github.com/karan-jadhav/turbovec-100m-experiment).
+
+## What This Does Not Claim
+
+This benchmark does not claim:
+
+- TurboVec is faster than FAISS
+- every RAG workload will get the same recall
+- 4-bit is always the right setting
+- p50 latency here represents a production serving system
+- compression removes the need to think about retrieval architecture
+
+I did not benchmark FAISS in this run.
+
+I also did not test a full RAG application with reranking, filtering, batching, caching, or query-specific routing.
+
+This benchmark measured one thing:
+
+> What happens when the same 100M-vector corpus is indexed with 2-bit and 4-bit TurboVec?
+
+## Takeaway
+
+The best result was not the smallest index.
+
+The best result was the practical tradeoff.
+
+For this dataset, 4-bit TurboVec compressed 310GB of float32 vectors into a 37GB index while keeping recall@10 at 0.914.
+
+That is the part I found useful.
+
+The index got much smaller.
+
+The search cost did not disappear.
+
+For large RAG systems, that is probably the right way to think about compression:
+
+not as magic,
+
+but as another knob between storage, recall, and latency.
