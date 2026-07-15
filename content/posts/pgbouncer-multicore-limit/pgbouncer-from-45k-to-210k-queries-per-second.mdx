@@ -1,0 +1,198 @@
+---
+title: "PgBouncer: From 45K to 210K Queries per Second"
+description: "A benchmark-driven look at how one PgBouncer process became a CPU bottleneck, how multiple processes scaled it, and where the next limit appeared."
+date: 2026-07-15
+tags: ["postgresql", "pgbouncer", "performance", "databases"]
+published: true
+---
+
+I wanted to see how far a PostgreSQL system could scale after one PgBouncer process became the bottleneck.
+
+Not "how fast is PgBouncer?" in general. A narrower question:
+
+> If one PgBouncer process fills a CPU core while PostgreSQL still has capacity, how much will multiple processes improve throughput?
+
+There was one important constraint. The combined PostgreSQL connection budget had to stay fixed at 128. Otherwise, adding PgBouncer processes could also add more database connections, and the result would not show whether the proxy itself was scaling.
+
+I ran 1, 2, 4, and 8 PgBouncer processes on the same port using `SO_REUSEPORT`.
+
+One process stopped at 45K queries per second while PostgreSQL was only at 22% CPU. Eight processes reached 210K queries per second. By then, PostgreSQL was at 97% CPU and had become the next bottleneck.
+
+## Setup
+
+I ran the experiment on AWS EC2 in `us-east-1`. All measured hosts were in the same availability zone.
+
+| Role | Instance | vCPU |
+| --- | --- | ---: |
+| PostgreSQL | `m7i.4xlarge` | 16 |
+| PgBouncer | `c7i.8xlarge` | 32 |
+| API load generator | `c7i.4xlarge` | 16 |
+| Export load generator | `c7i.4xlarge` | 16 |
+
+The software and workload configuration was:
+
+| Detail | Value |
+| --- | --- |
+| PostgreSQL | `18.4` |
+| PgBouncer | `1.25.2` |
+| Pool mode | `transaction` |
+| Dataset | 20M event rows |
+| Main client counts | 256 and 1,024 |
+| Client TLS | enabled |
+| Server TLS | enabled |
+| Warm-up | 20 seconds |
+| Measurement | 60 seconds |
+| Main scaling repeats | 3, in randomized order |
+| Primary result | median across repeats |
+
+The load generator issued prepared point lookups:
+
+```sql
+SELECT id, tenant_id, created_at, event_type
+FROM events
+WHERE id = $1;
+```
+
+The table and indexes were warmed before the measured runs. PostgreSQL reported a 100% buffer-hit ratio and no additional block reads during the main measurements, so storage was not limiting this workload.
+
+Each PgBouncer process was pinned to a separate CPU and listened on port 6432. I divided the pool budget across the active processes:
+
+| PgBouncer processes | Pool size per process | Combined pool |
+| ---: | ---: | ---: |
+| 1 | 128 | 128 |
+| 2 | 64 | 128 |
+| 4 | 32 | 128 |
+| 8 | 16 | 128 |
+
+This distinction matters. Copying a pool size of 128 into eight configurations would create a theoretical budget of 1,024 PostgreSQL connections. Any throughput increase would then mix proxy parallelism with higher database concurrency.
+
+The maximum observed PostgreSQL connection count stayed at 137 in every main configuration. That included the 128 application connections plus monitoring and administration connections.
+
+## Main Result
+
+This was the result with 256 clients:
+
+| Processes | Queries/sec | Speedup | Closed-loop p99 | PgBouncer cores used | PostgreSQL CPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 45,122 | 1.00x | 8.19 ms | 1.00 | 22% |
+| 2 | 80,788 | 1.79x | 4.57 ms | 2.00 | 44% |
+| 4 | 153,369 | 3.40x | 2.76 ms | 4.00 | 87% |
+| 8 | 209,779 | 4.65x | 2.36 ms | 6.27 | 97% |
+
+With one process, PgBouncer used one complete CPU core while PostgreSQL used 22% of its host CPU. The API load generator was around 5% CPU, CPU steal was negligible, and the database was serving the workload from memory. The full PgBouncer core was the first clear limit.
+
+The two-process result was close to ideal for this kind of test. Throughput increased by 1.79x, both processes used a full core, and PostgreSQL was still at 44% CPU.
+
+Four processes reached 153K queries per second, 3.40x the single-process result. All four PgBouncer cores were busy, but PostgreSQL had reached 87% CPU. The system was already moving away from a proxy-only bottleneck.
+
+At eight processes, throughput reached 210K queries per second. PostgreSQL was now at 97% CPU, and the PgBouncer processes used 6.27 cores in total rather than eight. The remaining PgBouncer capacity could not stay busy because the database had become saturated.
+
+The scaling pattern was therefore not linear all the way to eight processes. It was strong while PostgreSQL had headroom and tapered as the database approached its own limit.
+
+## Increasing the Client Count
+
+I repeated the same process-count sweep with 1,024 persistent clients.
+
+| Processes | Queries/sec | Speedup | Closed-loop p99 | PgBouncer cores used | PostgreSQL CPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 42,531 | 1.00x | 33.12 ms | 0.99 | 21% |
+| 2 | 74,993 | 1.76x | 16.98 ms | 1.98 | 40% |
+| 4 | 149,829 | 3.52x | 10.61 ms | 3.90 | 83% |
+| 8 | 208,621 | 4.91x | 7.51 ms | 6.14 | 95% |
+
+The throughput ceiling barely changed. Eight processes completed 209,779 queries per second with 256 clients and 208,621 with 1,024 clients.
+
+The additional clients mostly increased waiting time. With one process, p99 rose from 8.19 ms at 256 clients to 33.12 ms at 1,024 clients while throughput fell slightly. The process was already using its core, so a larger client queue could not create more capacity.
+
+These were closed-loop saturation runs: each client sent its next query after the previous query completed. That model is useful for finding the throughput ceiling, but it does not compare latency at one fixed offered rate. I treat the p99 values as observed saturation behavior rather than a production latency claim.
+
+## Direct PostgreSQL Baseline
+
+I ran the same point-query workload directly against PostgreSQL to check how much database capacity existed without PgBouncer in the path.
+
+| Clients | Queries/sec | p99 | PostgreSQL CPU |
+| ---: | ---: | ---: | ---: |
+| 64 | 241,752 | 0.55 ms | 69% |
+| 256 | 345,769 | 1.87 ms | 99% |
+| 512 | 311,141 | 4.38 ms | 100% |
+
+These were single baseline runs, and the direct path is not identical to the PgBouncer path. The proxy adds another network hop, transaction pooling, and TLS on both sides. Even with that caveat, the baseline shows that PostgreSQL had much more point-query capacity than the 45K queries per second delivered through one PgBouncer process.
+
+## TLS Cost on One Process
+
+I separated client-side and server-side TLS while keeping one PgBouncer process. These were single runs.
+
+| TLS configuration | Queries/sec | Change from no TLS | p99 |
+| --- | ---: | ---: | ---: |
+| No TLS | 70,737 | baseline | 5.30 ms |
+| Client TLS only | 61,386 | -13% | 6.06 ms |
+| Server TLS only | 53,075 | -25% | 7.06 ms |
+| TLS on both sides | 46,115 | -35% | 8.03 ms |
+
+The PgBouncer process used a full core in every configuration. TLS changed how many queries that core could complete. Server-side TLS had the larger cost in this setup, and enabling TLS on both sides reduced throughput by about 35% compared with the no-TLS run.
+
+The exact percentages come from one run per TLS configuration, so I would use them as directional results rather than general constants.
+
+## Shared and Isolated Export Traffic
+
+The mixed test combined API traffic at 8,000 requests per second with four concurrent export streams. Both topologies used four PgBouncer processes and the same total PostgreSQL pool budget.
+
+In the shared topology, API and export connections could use all four processes. In the isolated topology, three processes handled API traffic and one process was reserved for exports.
+
+| Topology | API p99 | Export throughput |
+| --- | ---: | ---: |
+| Shared | 3.06 ms | 991.9 MiB/s |
+| Isolated | 3.42 ms | 581.9 MiB/s |
+
+Isolation did not help at this offered API rate. The API workload was far below its available capacity, so there was little contention to protect it from. Meanwhile, the isolated export process filled one core and stopped around 582 MiB/s. The shared export connections were distributed across several processes and reached about 992 MiB/s.
+
+This test does not show that isolation is generally harmful. It shows that reserving capacity only helps when the protected workload needs it. Here, the reservation mainly reduced the CPU available to the export path.
+
+## Cancellation Requires Peering
+
+Multiple processes sharing one port also affect PostgreSQL query cancellation. I sent 100 cancellation attempts through three configurations:
+
+| Configuration | Successful cancellations |
+| --- | ---: |
+| 1 process | 100/100 |
+| 4 processes without peering | 23/100 |
+| 4 processes with peering | 100/100 |
+
+Without peering, 23% of the cancellations succeeded. That is consistent with a cancellation request occasionally reaching the process that owned the original client connection. After enabling PgBouncer peering, all 100 attempts succeeded.
+
+This is an operational requirement rather than a throughput detail. A multi-process setup should divide the pool budget and configure peering before it is treated as equivalent to a single PgBouncer process.
+
+## Measurement Notes
+
+The main scaling results use the median of three randomized repeats. Throughput was stable compared with the size of the process-count effect. The 256-client, two-process configuration had the highest throughput coefficient of variation at about 3.2%; the other main throughput groups stayed below 3%.
+
+Tail latency varied more than throughput in several configurations, which is another reason not to present the p99 values as precise production SLO measurements.
+
+The CPU figures in this post were calculated over the actual 60-second load interval. Including idle collector time before and after the load would understate the CPU used by a saturated process.
+
+## What This Does Not Claim
+
+This experiment does not claim:
+
+- every workload will scale by 4.65x
+- eight PgBouncer processes are always the right configuration
+- PgBouncer is always the first bottleneck
+- closed-loop p99 represents fixed-rate production latency
+- isolation is never useful
+- the measured TLS cost applies to every CPU and TLS setup
+
+The experiment covers a memory-resident point-query workload that saturated one PgBouncer process before PostgreSQL. Multiple processes increased proxy capacity until PostgreSQL became CPU-bound.
+
+## Code
+
+The infrastructure, load generator, experiment runner, raw results, and analysis code are available on [GitHub](https://github.com/karan-jadhav/pgbouncer-multicore-limit).
+
+The repository includes Docker Compose for local testing, Terraform and Ansible for the AWS environment, the Rust load generator, all experiment matrices, raw per-run metrics, validation, charts, and summary tables.
+
+## Takeaway
+
+One PgBouncer process delivered 45K queries per second while using one full CPU core and leaving PostgreSQL at 22% CPU. Four processes reached 153K, and eight reached 210K without increasing the 128-connection database pool.
+
+The eight-process result was 4.65x faster than the one-process result, but PostgreSQL was at 97% CPU by then. On this workload, multiple PgBouncer processes solved the single-core proxy limit until the database became the limiting resource.
+
+For a system showing the same symptoms, process-level CPU is the first metric I would check. If one PgBouncer process is full while PostgreSQL still has headroom, multiple processes on one port are a practical next test. The connection budget still needs to be divided across those processes, and peering needs to be enabled for reliable cancellation.
