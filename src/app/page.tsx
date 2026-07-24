@@ -8,7 +8,6 @@ import {
   Server,
 } from "lucide-react";
 import Link from "next/link";
-import YearsSince from "@/components/YearsSince";
 export const dynamic = "force-static";
 export default function Home() {
   return (
@@ -19,8 +18,9 @@ export default function Home() {
             hey, I&apos;m Karan Jadhav <span className="wave-on-load">👋</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300">
-            Backend engineer building distributed geospatial data platforms,
-            high-performance APIs, and large-scale data infrastructure.
+            Backend engineer with 5+ years building production Python services,
+            distributed geospatial data platforms, and high-performance APIs on
+            AWS.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
             <a
@@ -79,24 +79,24 @@ export default function Home() {
           </div>
 
           <p>
-            I build backend systems for geospatial data, climate risk analytics,
-            distributed processing, and high-performance APIs.
+            I build Python backend systems for geospatial data, climate risk
+            analytics, distributed processing, and high-performance APIs.
           </p>
 
           <p>
-            I&apos;m currently working at{" "}
+            From March 2021 to May 2026, I worked at{" "}
             <a
               href="https://intensel.net"
               className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Intensel LTD
+              Intensel Ltd
             </a>{" "}
-            as a Software Engineer, owning backend architecture, data
-            infrastructure, distributed job pipelines, and production APIs for a
-            climate risk platform used by enterprise customers across 10+
-            countries.
+            as a Software Engineer focused on backend and data infrastructure. I
+            owned architecture, delivery, distributed processing, and production
+            support for a climate risk platform used by enterprise customers
+            across 10+ countries.
           </p>
 
           <p className="text-gray-300">
@@ -128,18 +128,18 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2 text-sm text-gray-300">
             <div className="border-l border-blue-400/40 pl-4">
               <div className="text-white font-medium">
-                2.3B+ geospatial records
+                2.3B+ building records
               </div>
               <div className="text-gray-400 mt-1">
-                Engineered ingestion and query systems across 1.8 TB of indexed
+                Designed ingestion and query systems across 1.8 TB of PostGIS
                 data.
               </div>
             </div>
             <div className="border-l border-blue-400/40 pl-4">
               <div className="text-white font-medium">50K+ jobs/day</div>
               <div className="text-gray-400 mt-1">
-                Operated RabbitMQ and Dask pipelines with retries, scheduling,
-                and async workers.
+                Operated AWS SQS and Dask workflows with scheduling, retries,
+                worker orchestration, and failure recovery.
               </div>
             </div>
             <div className="border-l border-blue-400/40 pl-4">
@@ -160,11 +160,11 @@ export default function Home() {
             </div>
             <div className="border-l border-blue-400/40 pl-4 sm:col-span-2">
               <div className="text-white font-medium">
-                AWS production operations
+                60% faster deployments
               </div>
               <div className="text-gray-400 mt-1">
-                Managed infrastructure across EC2, S3, RDS, SQS, Lambda, and
-                CloudWatch.
+                Built Docker-based CI/CD and deployed services to Kubernetes on
+                Amazon EKS with CloudWatch observability.
               </div>
             </div>
           </div>
@@ -193,16 +193,18 @@ export default function Home() {
           <div className="space-y-4 text-gray-300">
             <div>
               <div className="font-medium">
-                Software Engineer at Intensel LTD
+                Software Engineer (Backend & Data Infrastructure) at Intensel Ltd
               </div>
               <div className="text-sm text-gray-400">
-                2021 - Present (<YearsSince startYear={2021} />)
+                March 2021 - May 2026 · 5+ years
               </div>
               <div className="text-sm mt-1">
-                Own backend architecture and data infrastructure for a climate
+                Owned backend architecture and data infrastructure for a climate
                 risk platform serving enterprise customers across 10+ countries.
-                Focused on distributed workflows, large-scale geospatial data,
-                low-latency APIs, AWS operations, and production reliability.
+                Took changes from ambiguous requirements through technical
+                design, automated testing, deployment, and production support;
+                reviewed code, mentored engineers, and investigated incidents
+                across APIs, workers, queues, databases, and deployments.
               </div>
             </div>
           </div>
@@ -246,7 +248,7 @@ export default function Home() {
                 </span>
               </h3>
               <div className="text-xs text-gray-400">
-                APIs & distributed systems
+                APIs, validation & testing
               </div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
@@ -258,6 +260,15 @@ export default function Home() {
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Axum
                 </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  REST APIs
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Validation
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Automated testing
+                </span>
               </div>
             </div>
 
@@ -265,69 +276,81 @@ export default function Home() {
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">Languages</h3>
               <div className="text-xs text-gray-400">
-                General-purpose coding
+                Application & data systems
               </div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
                   Python
                 </span>
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
+                  SQL
+                </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Rust
                 </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Go
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  JS / TS
-                </span>
               </div>
             </div>
 
-            {/* Frontend */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">Frontend</h3>
-              <div className="text-xs text-gray-400">Web apps & interfaces</div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  React
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Next.js
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Tailwind CSS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Mapbox
-                </span>
-              </div>
-            </div>
-
-            {/* Cross-platform */}
+            {/* AI & Analytics */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
-                Cross-platform
+                AI & Analytics
               </h3>
-              <div className="text-xs text-gray-400">Mobile & desktop</div>
+              <div className="text-xs text-gray-400">
+                Natural-language data access
+              </div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Flutter
+                  LLM agents
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Tauri
+                  Natural-language queries
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Geospatial analytics
                 </span>
               </div>
             </div>
 
-            {/* Data & Storage */}
+            {/* Engineering */}
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-200">Engineering</h3>
+              <div className="text-xs text-gray-400">
+                Delivery & production support
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  System design
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Code review
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Mentoring
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Production debugging
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Monitoring
+                </span>
+              </div>
+            </div>
+
+            {/* Data & Processing */}
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-gray-200">
-                Data & Storage
+                Data & Processing
               </h3>
-              <div className="text-xs text-gray-400">Databases & messaging</div>
+              <div className="text-xs text-gray-400">
+                Databases, queues & workers
+              </div>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
                   PostgreSQL
+                </span>
+                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
+                  PostGIS
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Redis
@@ -336,13 +359,10 @@ export default function Home() {
                   DuckDB
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  RabbitMQ
+                  AWS SQS
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  AWS S3
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  MapServer
+                  Dask
                 </span>
               </div>
             </div>
@@ -363,7 +383,28 @@ export default function Home() {
                   Docker
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Kubernetes
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  Amazon EKS
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  EC2
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  S3
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  RDS
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
                   Linux
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  CI/CD
+                </span>
+                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
+                  CloudWatch
                 </span>
               </div>
             </div>
@@ -376,35 +417,56 @@ export default function Home() {
             <div>
               <div className="font-medium">Climate Risk Platform</div>
               <div className="text-sm text-gray-400 mt-1">
-                Owned backend systems for an enterprise climate risk platform
-                serving customers across 10+ countries, combining distributed
-                processing, geospatial analytics, interactive maps, and
-                production observability.
+                Owned backend architecture and delivery for an enterprise
+                climate risk platform serving customers across 10+ countries,
+                from requirements and technical design through rollout and
+                production support.
+              </div>
+            </div>
+            <div>
+              <div className="font-medium">
+                Natural-Language Geospatial Analytics
+              </div>
+              <div className="text-sm text-gray-400 mt-1">
+                Built an LLM-powered agent that converted natural-language
+                requests into structured geospatial and analytics queries, using
+                DuckDB for vector-data analysis and integrating with backend APIs
+                and PostgreSQL/PostGIS.
               </div>
             </div>
             <div>
               <div className="font-medium">Global Building Footprints</div>
               <div className="text-sm text-gray-400 mt-1">
-                Prepared and indexed 2.3B+ building footprints in PostGIS for
-                sub-second spatial queries, enabling enterprise analytics on 1.8
-                TB of indexed geospatial data.
+                Built ingestion, validation, indexing, and query workflows for
+                2.3B+ building records across 1.8 TB of PostGIS data, balancing
+                batch throughput with low-latency access.
               </div>
             </div>
             <div>
               <div className="font-medium">Map Tile Service</div>
               <div className="text-sm text-gray-400 mt-1">
-                Built a tile delivery service for 5.3 TB+ raster datasets using
-                MapServer, FastAPI, caching, and authenticated access, improving
-                map rendering reliability for enterprise geospatial workflows.
+                Designed authenticated backend delivery for 5.3 TB of geospatial
+                raster data, with tuned storage access, caching, logging, and
+                monitoring for reliable production delivery.
               </div>
             </div>
             <div>
               <div className="font-medium">RediServe</div>
               <div className="text-sm text-gray-400 mt-1">
-                Built an async HTTP API for Redis in Rust with Axum and Tokio,
-                focused on connection pooling, low-latency request handling, and
-                efficient backend service design.
+                Built an asynchronous HTTP API for Redis in Rust with Axum and
+                Tokio, using connection pooling and explicit backend resource
+                management.
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <h2 className="text-xl font-light text-white">Education</h2>
+          <div className="space-y-1 text-gray-300">
+            <div className="font-medium">Bachelor of Computer Science</div>
+            <div className="text-sm text-gray-400">
+              University of Mumbai · 2020
             </div>
           </div>
         </div>

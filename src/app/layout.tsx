@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Karan Jadhav",
   description:
-    "Backend engineer building distributed geospatial data platforms, high-performance APIs, and large-scale data infrastructure.",
+    "Backend engineer with 5+ years building production Python services, distributed geospatial data platforms, and high-performance APIs on AWS.",
 };
 
 export default function RootLayout({
