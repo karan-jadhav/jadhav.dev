@@ -1,11 +1,41 @@
 import CurrentYear from "@/components/CurrentYear";
+import type { Metadata } from "next";
 
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "ReplyFuse - Privacy Policy",
+const description =
+  "Privacy Policy for ReplyFuse prototype testing phase, including data collection, usage, retention, and contact details.";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "ReplyFuse - Privacy Policy",
+  },
   description:
     "Privacy Policy for ReplyFuse prototype testing phase, including data collection, usage, retention, and contact details.",
+  alternates: {
+    canonical: "/replyfuse/privacy_policy",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/replyfuse/privacy_policy",
+    siteName: "ReplyFuse",
+    title: "ReplyFuse - Privacy Policy",
+    description,
+  },
+  twitter: {
+    card: "summary",
+    title: "ReplyFuse - Privacy Policy",
+    description,
+  },
+  robots: {
+    index: false,
+    follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+    },
+  },
 };
 
 export default function PrivacyPolicyPage() {

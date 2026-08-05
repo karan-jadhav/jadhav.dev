@@ -1,5 +1,6 @@
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
 import { Mdx } from "@/components/mdx-components";
@@ -24,16 +25,71 @@ async function getPostFromParams(params: PostPageProps["params"]) {
   return post;
 }
 
-export async function generateMetadata({ params }: PostPageProps) {
+export async function generateMetadata({
+  params,
+}: PostPageProps): Promise<Metadata> {
   const post = await getPostFromParams(params);
 
   if (!post) {
     return {};
   }
 
+  const title = post.seoTitle ?? post.title;
+  const url = `https://jadhav.dev${post.url}`;
+  const socialImage = `/api/og?slug=${encodeURIComponent(post.slug)}`;
+  const publishedTime = new Date(post.date).toISOString();
+  const modifiedTime = new Date(post.updated ?? post.date).toISOString();
+
   return {
-    title: `${post.title} | Karan Jadhav`,
+    title,
     description: post.description,
+    alternates: {
+      canonical: post.url,
+    },
+    openGraph: {
+      type: "article",
+      locale: "en_US",
+      url,
+      siteName: "Karan Jadhav",
+      title: `${title} | Karan Jadhav`,
+      description: post.description,
+      publishedTime,
+      modifiedTime,
+      authors: ["Karan Jadhav"],
+      tags: post.tags,
+      images: [
+        {
+          url: socialImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      creator: "@IamKaranJadhav",
+      title: `${title} | Karan Jadhav`,
+      description: post.description,
+      images: [
+        {
+          url: socialImage,
+          alt: post.title,
+        },
+      ],
+    },
+    ...(post.noindex
+      ? {
+          robots: {
+            index: false,
+            follow: true,
+            googleBot: {
+              index: false,
+              follow: true,
+            },
+          },
+        }
+      : {}),
   };
 }
 
@@ -50,28 +106,137 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
+  const postUrl = `https://jadhav.dev${post.url}`;
+  const modifiedDate = post.updated ?? post.date;
+  const relatedPosts = allPosts
+    .filter(
+      (candidate) =>
+        candidate.published &&
+        !candidate.noindex &&
+        candidate.slug !== post.slug,
+    )
+    .map((candidate) => ({
+      post: candidate,
+      sharedTags: candidate.tags.filter((tag) => post.tags.includes(tag)).length,
+    }))
+    .filter(({ sharedTags }) => sharedTags > 0)
+    .sort(
+      (a, b) =>
+        b.sharedTags - a.sharedTags ||
+        new Date(b.post.date).getTime() - new Date(a.post.date).getTime(),
+    )
+    .slice(0, 3)
+    .map(({ post: relatedPost }) => relatedPost);
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${postUrl}#article`,
+        url: postUrl,
+        mainEntityOfPage: postUrl,
+        headline: post.title,
+        description: post.description,
+        image: `https://jadhav.dev/api/og?slug=${encodeURIComponent(post.slug)}`,
+        datePublished: post.date,
+        dateModified: modifiedDate,
+        inLanguage: "en",
+        author: {
+          "@type": "Person",
+          "@id": "https://jadhav.dev/#person",
+          name: "Karan Jadhav",
+          url: "https://jadhav.dev",
+        },
+        isPartOf: {
+          "@type": "Blog",
+          "@id": "https://jadhav.dev/blog#blog",
+          name: "Backend Engineering Blog | Karan Jadhav",
+        },
+        keywords: post.tags,
+        articleSection: post.tags,
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${postUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://jadhav.dev",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: "https://jadhav.dev/blog",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: post.title,
+            item: postUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
-    <div className="min-h-screen bg-black text-gray-100 px-6 py-16 md:py-24">
+    <main className="min-h-screen bg-black text-gray-100 px-6 py-16 md:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <article className="max-w-2xl mx-auto">
         {/* Navigation */}
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-12"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Blog</span>
-        </Link>
+        <nav aria-label="Blog navigation">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-12"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Blog</span>
+          </Link>
+        </nav>
 
         {/* Header */}
         <header className="mb-12">
-          <div className="flex items-center gap-3 text-sm text-gray-500 mb-6">
-            <time>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-6">
+            <span>
+              By{" "}
+              <Link
+                href="/"
+                className="text-gray-400 hover:text-gray-200 transition-colors"
+              >
+                Karan Jadhav
+              </Link>
+            </span>
+            <span className="text-gray-700">·</span>
+            <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </time>
+            {post.updated && post.updated !== post.date && (
+              <>
+                <span className="text-gray-700">·</span>
+                <span>
+                  Updated{" "}
+                  <time dateTime={post.updated}>
+                    {new Date(post.updated).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </time>
+                </span>
+              </>
+            )}
             <span className="text-gray-700">·</span>
             <span>{post.readingTime} min read</span>
           </div>
@@ -104,15 +269,46 @@ export default async function PostPage({ params }: PostPageProps) {
           <Mdx code={post.body.code} />
         </div>
 
+        {relatedPosts.length > 0 && (
+          <aside
+            aria-labelledby="related-posts-heading"
+            className="mt-20 border-t border-gray-800/50 pt-8"
+          >
+            <h2
+              id="related-posts-heading"
+              className="text-lg font-medium text-white"
+            >
+              Related posts
+            </h2>
+            <ul className="mt-5 space-y-3">
+              {relatedPosts.map((relatedPost) => (
+                <li key={relatedPost.slug}>
+                  <Link
+                    href={relatedPost.url}
+                    className="group flex items-start justify-between gap-6 text-sm text-gray-400 transition-colors hover:text-white"
+                  >
+                    <span>{relatedPost.title}</span>
+                    <span className="shrink-0 text-gray-600 transition-colors group-hover:text-blue-400">
+                      Read
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
+
         {/* Footer */}
         <footer className="mt-20 pt-8 border-t border-gray-800/50">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-8"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>All posts</span>
-          </Link>
+          <nav aria-label="Footer navigation">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-8"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>All posts</span>
+            </Link>
+          </nav>
 
           <p className="text-gray-400 text-sm flex items-center gap-2">
             <Mail className="w-4 h-4" />
@@ -129,6 +325,6 @@ export default async function PostPage({ params }: PostPageProps) {
           </p>
         </footer>
       </article>
-    </div>
+    </main>
   );
 }

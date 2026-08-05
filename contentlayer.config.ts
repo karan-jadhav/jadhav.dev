@@ -15,9 +15,17 @@ export const Post = defineDocumentType(() => ({
       type: "string",
       required: true,
     },
+    seoTitle: {
+      type: "string",
+      required: false,
+    },
     date: {
       type: "date",
       required: true,
+    },
+    updated: {
+      type: "date",
+      required: false,
     },
     tags: {
       type: "list",
@@ -27,6 +35,10 @@ export const Post = defineDocumentType(() => ({
     published: {
       type: "boolean",
       default: true,
+    },
+    noindex: {
+      type: "boolean",
+      default: false,
     },
   },
   computedFields: {

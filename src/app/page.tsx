@@ -7,11 +7,62 @@ import {
   MapPin,
   Server,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
+
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
+
+const profileJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "https://jadhav.dev/#profile",
+  url: "https://jadhav.dev",
+  name: "Karan Jadhav | Backend Engineer",
+  description:
+    "Backend engineer with 5+ years building production Python services, distributed geospatial data platforms, and high-performance APIs on AWS.",
+  inLanguage: "en",
+  mainEntity: {
+    "@type": "Person",
+    "@id": "https://jadhav.dev/#person",
+    name: "Karan Jadhav",
+    url: "https://jadhav.dev",
+    email: "mailto:karan@jadhav.dev",
+    jobTitle: "Backend Engineer",
+    homeLocation: {
+      "@type": "Place",
+      name: "Navi Mumbai, India",
+    },
+    sameAs: [
+      "https://github.com/karan-jadhav",
+      "https://www.linkedin.com/in/jadhav-karan/",
+      "https://x.com/IamKaranJadhav",
+    ],
+    knowsAbout: [
+      "Python",
+      "Backend engineering",
+      "Distributed systems",
+      "PostgreSQL",
+      "Geospatial data",
+      "Amazon Web Services",
+    ],
+  },
+};
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
+    <main className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(profileJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="max-w-3xl mx-auto space-y-16">
         <div className="text-center">
           <h1 className="text-4xl font-light text-white mb-2">
@@ -240,6 +291,7 @@ export default function Home() {
                 <span className="relative inline-flex items-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400/80 animate-pulse"></span>
                 </span>
+                {" "}
                 <span
                   className="ml-1 inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-blue-300 ring-1 ring-inset ring-blue-400/30"
                   aria-label="Core skill"
@@ -505,6 +557,6 @@ export default function Home() {
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -5,10 +5,10 @@ const baseUrl = "https://jadhav.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts: MetadataRoute.Sitemap = allPosts
-    .filter((post) => post.published)
+    .filter((post) => post.published && !post.noindex)
     .map((post) => ({
       url: `${baseUrl}${post.url}`,
-      lastModified: post.date,
+      lastModified: post.updated ?? post.date,
     }));
 
   return [
