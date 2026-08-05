@@ -603,24 +603,6 @@ export default function Home() {
                 karan@jadhav.dev
               </a>
             </span>
-            <span className="text-gray-600">/</span>
-            <a
-              href="/Karan_Jadhav_Resume.pdf"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View resume
-            </a>
-            <span className="text-gray-600">/</span>
-            <a
-              href="https://github.com/karan-jadhav"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
           </p>
         </div>
       </div>
