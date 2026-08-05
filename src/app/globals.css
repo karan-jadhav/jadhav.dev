@@ -2,6 +2,10 @@
 @plugin "@tailwindcss/typography";
 
 @layer base {
+  :root {
+    --duration-move: 400ms;
+  }
+
   html {
     scroll-behavior: smooth;
     background-color: #000000;
@@ -17,6 +21,20 @@
     line-height: 1.7;
     background-color: #000000;
   }
+}
+
+::view-transition-group(.text-morph) {
+  animation-duration: var(--duration-move);
+}
+
+::view-transition-old(.text-morph) {
+  display: none;
+}
+
+::view-transition-new(.text-morph) {
+  animation: none;
+  object-fit: none;
+  object-position: left top;
 }
 
 /* Prose styling for blog posts */

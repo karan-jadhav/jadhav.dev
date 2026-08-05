@@ -276,7 +276,13 @@ export default async function PostPage({ params }: PostPageProps) {
             </h1>
           </ViewTransition>
 
-          <p className="text-gray-400 leading-relaxed">{post.description}</p>
+          <ViewTransition
+            name={`blog-description-${post.slug.replaceAll("/", "-")}`}
+            share="text-morph"
+            default="none"
+          >
+            <p className="text-gray-400 leading-relaxed">{post.description}</p>
+          </ViewTransition>
 
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-6">

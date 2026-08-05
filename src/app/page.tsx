@@ -265,9 +265,15 @@ export default function Home() {
                       {post.title}
                     </h3>
                   </ViewTransition>
-                  <p className="mt-1.5 text-sm leading-relaxed text-gray-400">
-                    {post.description}
-                  </p>
+                  <ViewTransition
+                    name={`blog-description-${post.slug.replaceAll("/", "-")}`}
+                    share="text-morph"
+                    default="none"
+                  >
+                    <p className="mt-1.5 text-sm leading-relaxed text-gray-400">
+                      {post.description}
+                    </p>
+                  </ViewTransition>
                 </Link>
               </article>
             ))}

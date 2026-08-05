@@ -132,9 +132,15 @@ export default function BlogPage() {
                       {post.title}
                     </h2>
                   </ViewTransition>
-                  <p className="text-sm text-zinc-500 leading-relaxed mb-3">
-                    {post.description}
-                  </p>
+                  <ViewTransition
+                    name={`blog-description-${post.slug.replaceAll("/", "-")}`}
+                    share="text-morph"
+                    default="none"
+                  >
+                    <p className="text-sm text-zinc-500 leading-relaxed mb-3">
+                      {post.description}
+                    </p>
+                  </ViewTransition>
                   {post.tags && post.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {post.tags.map((tag) => (
