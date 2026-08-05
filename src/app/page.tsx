@@ -216,7 +216,17 @@ export default function Home() {
                 production load.
               </div>
             </div>
-            <div className="border-l border-blue-400/40 pl-4 sm:col-span-2">
+            <div className="border-l border-blue-400/40 pl-4">
+              <div className="text-white font-medium">
+                Half-hourly NASA precipitation data
+              </div>
+              <div className="text-gray-400 mt-1">
+                Built a near-real-time pipeline for GPM IMERG GeoTIFFs with a
+                10-minute availability buffer and Amazon S3 delivery for risk
+                monitoring and alerts.
+              </div>
+            </div>
+            <div className="border-l border-blue-400/40 pl-4">
               <div className="text-white font-medium">
                 60% faster deployments
               </div>
