@@ -58,16 +58,14 @@ const profileJsonLd = {
 export default function Home() {
   const featuredPosts = allPosts
     .filter((post) => post.published && !post.noindex)
-    .sort(
-      (a, b) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime(),
-    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3);
 
   return (
     <main className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: safe
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(profileJsonLd).replace(/</g, "\\u003c"),
         }}
@@ -284,7 +282,8 @@ export default function Home() {
           <div className="space-y-4 text-gray-300">
             <div>
               <div className="font-medium">
-                Software Engineer (Backend & Data Infrastructure) at Intensel Ltd
+                Software Engineer (Backend & Data Infrastructure) at Intensel
+                Ltd
               </div>
               <div className="text-sm text-gray-400">
                 March 2021 - May 2026 · 5+ years
@@ -309,7 +308,7 @@ export default function Home() {
               <span className="px-2 py-0.5 text-[10px] bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
                 Core Expertise
               </span>
-              <span className="text-gray-500">
+              <span className="text-gray-400">
                 = primary skills across sections
               </span>
             </span>
@@ -317,7 +316,7 @@ export default function Home() {
               <span className="px-2 py-0.5 text-[10px] bg-gray-800 text-gray-300 rounded ring-1 ring-inset ring-gray-700/50">
                 Also work with
               </span>
-              <span className="text-gray-500">
+              <span className="text-gray-400">
                 = other skills I use regularly
               </span>
             </span>
@@ -330,12 +329,8 @@ export default function Home() {
                 Backend
                 <span className="relative inline-flex items-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400/80 animate-pulse"></span>
-                </span>
-                {" "}
-                <span
-                  className="ml-1 inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-blue-300 ring-1 ring-inset ring-blue-400/30"
-                  aria-label="Core skill"
-                >
+                </span>{" "}
+                <span className="ml-1 inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-blue-300 ring-1 ring-inset ring-blue-400/30">
                   Core
                 </span>
               </h3>
@@ -522,8 +517,8 @@ export default function Home() {
               <div className="text-sm text-gray-400 mt-1">
                 Built an LLM-powered agent that converted natural-language
                 requests into structured geospatial and analytics queries, using
-                DuckDB for vector-data analysis and integrating with backend APIs
-                and PostgreSQL/PostGIS.
+                DuckDB for vector-data analysis and integrating with backend
+                APIs and PostgreSQL/PostGIS.
               </div>
             </div>
             <div>
