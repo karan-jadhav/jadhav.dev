@@ -50,6 +50,8 @@ The exact numbers will vary with schema, hardware, disk cache, Postgres config, 
 
 The input was a CSV generated from public GitHub Events data.
 
+For JSON event pipelines, the same work starts one stage earlier: [streaming large JSON in Python](/blog/large-json-python/parser-speed-is-not-the-whole-problem) keeps memory stable before records reach the database writer.
+
 | Detail | Value |
 | --- | ---: |
 | Rows | 1,000,000 |
@@ -125,6 +127,8 @@ This dropped the load time from **16.95 minutes** to **30.37 seconds**.
 That is already a **33.5x** improvement.
 
 The database did not become magical here. The client just stopped talking to Postgres one row at a time.
+
+That is the write-side version of measuring the real constraint. In the [PgBouncer multicore benchmark](/blog/pgbouncer-multicore-limit/pgbouncer-from-45k-to-210k-queries-per-second), proxy CPU—not PostgreSQL capacity—was the first bottleneck.
 
 This is usually the first thing I check in ingestion code:
 

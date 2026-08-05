@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = allPosts
-    .filter((post) => post.published)
+    .filter((post) => post.published && !post.noindex)
     .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)));
   const blogJsonLd = {
     "@context": "https://schema.org",
@@ -64,15 +64,13 @@ export default function BlogPage() {
       name: "Karan Jadhav",
       url: "https://jadhav.dev",
     },
-    blogPost: posts
-      .filter((post) => !post.noindex)
-      .map((post) => ({
-        "@type": "BlogPosting",
-        headline: post.title,
-        url: `https://jadhav.dev${post.url}`,
-        datePublished: post.date,
-        dateModified: post.updated ?? post.date,
-      })),
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      url: `https://jadhav.dev${post.url}`,
+      datePublished: post.date,
+      dateModified: post.updated ?? post.date,
+    })),
   };
 
   return (

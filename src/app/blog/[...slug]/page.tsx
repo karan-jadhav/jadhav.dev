@@ -1,9 +1,9 @@
+import { Mdx } from "@/components/mdx-components";
 import { allPosts } from "contentlayer/generated";
-import { notFound } from "next/navigation";
+import { ArrowLeft, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Mail } from "lucide-react";
-import { Mdx } from "@/components/mdx-components";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-static";
 
@@ -117,7 +117,8 @@ export default async function PostPage({ params }: PostPageProps) {
     )
     .map((candidate) => ({
       post: candidate,
-      sharedTags: candidate.tags.filter((tag) => post.tags.includes(tag)).length,
+      sharedTags: candidate.tags.filter((tag) => post.tags.includes(tag))
+        .length,
     }))
     .filter(({ sharedTags }) => sharedTags > 0)
     .sort(
@@ -186,20 +187,45 @@ export default async function PostPage({ params }: PostPageProps) {
     <main className="min-h-screen bg-black text-gray-100 px-6 py-16 md:py-24">
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: safe
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleJsonLd).replace(/</g, "\\u003c"),
         }}
       />
       <article className="max-w-2xl mx-auto">
         {/* Navigation */}
-        <nav aria-label="Blog navigation">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-12"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Blog</span>
-          </Link>
+        <nav aria-label="Breadcrumb" className="mb-12">
+          <ol className="flex items-center gap-2 text-sm text-gray-500">
+            <li>
+              <Link
+                href="/"
+                className="transition-colors hover:text-gray-300"
+              >
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true" className="text-gray-700">
+              /
+            </li>
+            <li>
+              <Link
+                href="/blog"
+                className="transition-colors hover:text-gray-300"
+              >
+                Blog
+              </Link>
+            </li>
+            <li aria-hidden="true" className="text-gray-700">
+              /
+            </li>
+            <li
+              aria-current="page"
+              className="min-w-0 flex-1 truncate text-gray-400"
+              title={post.title}
+            >
+              {post.title}
+            </li>
+          </ol>
         </nav>
 
         {/* Header */}
@@ -252,7 +278,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2.5 py-1 text-xs text-gray-400 bg-white/[0.04] rounded-full"
+                  className="px-2.5 py-1 text-xs text-gray-400 bg-white/4 rounded-full"
                 >
                   {tag}
                 </span>

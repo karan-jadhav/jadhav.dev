@@ -7,6 +7,7 @@ import {
   MapPin,
   Server,
 } from "lucide-react";
+import { allPosts } from "contentlayer/generated";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -55,6 +56,14 @@ const profileJsonLd = {
 };
 
 export default function Home() {
+  const featuredPosts = allPosts
+    .filter((post) => post.published && !post.noindex)
+    .sort(
+      (a, b) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )
+    .slice(0, 3);
+
   return (
     <main className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
       <script
@@ -220,6 +229,37 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <section className="space-y-6" aria-labelledby="latest-writing">
+          <div className="flex items-center justify-between gap-4">
+            <h2 id="latest-writing" className="text-xl font-light text-white">
+              Latest writing
+            </h2>
+            <Link
+              href="/blog"
+              className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              View all posts
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {featuredPosts.map((post) => (
+              <article key={post.slug}>
+                <Link
+                  href={post.url}
+                  className="group block rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-700 hover:bg-white/[0.02]"
+                >
+                  <h3 className="text-sm font-medium text-gray-200 transition-colors group-hover:text-white">
+                    {post.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-gray-400">
+                    {post.description}
+                  </p>
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
 
         {/* <div className="space-y-6">
           <h2 className="text-xl font-light text-white">Currently</h2>

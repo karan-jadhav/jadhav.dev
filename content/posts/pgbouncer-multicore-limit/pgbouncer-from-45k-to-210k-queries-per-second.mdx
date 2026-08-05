@@ -118,6 +118,8 @@ I ran the same point-query workload directly against PostgreSQL to check how muc
 
 These were single baseline runs, and the direct path is not identical to the PgBouncer path. The proxy adds another network hop, transaction pooling, and TLS on both sides. Even with that caveat, the baseline shows that PostgreSQL had much more point-query capacity than the 45K queries per second delivered through one PgBouncer process.
 
+The limiting layer can be different on the write path. In the [PostgreSQL bulk-ingestion benchmark](/blog/postgres-copy-ingest/1m-rows-into-postgres-in-1-29-seconds), client round trips and write shape—not raw database capacity—dominated the slow result.
+
 ## TLS Cost on One Process
 
 I separated client-side and server-side TLS while keeping one PgBouncer process. These were single runs.

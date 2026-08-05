@@ -133,6 +133,8 @@ The JSONL streaming versions stayed around 25 MB peak RSS.
 
 The full-array versions used multiple GB.
 
+That gap between compact input and runtime memory also appears in the [100M-vector TurboVec benchmark](/blog/turbovec-rag-vectors/turbovec-on-100m-rag-vectors), where the persisted index and prepared query process had very different footprints.
+
 `simdjson` was fastest in the JSONL streaming case. But the full-array `simdjson` version still had high memory usage because the code parsed the full file and converted it into Python objects with `recursive=True`.
 
 That is the point.
@@ -202,6 +204,8 @@ The questions I would check first:
 - Do we need the full document in memory?
 
 Parser choice still matters. But the data shape decides how predictable the system is.
+
+The same shape-first principle applies after parsing: the [PostgreSQL bulk-ingestion benchmark](/blog/postgres-copy-ingest/1m-rows-into-postgres-in-1-29-seconds) shows how batching and `COPY` change the write path before database tuning begins.
 
 ## Why JSONL Works Well for Ingestion
 

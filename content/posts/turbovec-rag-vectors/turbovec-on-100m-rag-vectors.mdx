@@ -115,6 +115,8 @@ That memory number is query-side prepared RSS, not the persisted index size.
 
 The persisted 4-bit index file was 37.4GB.
 
+A smaller artifact does not guarantee a small runtime footprint. The [large-JSON Python benchmark](/blog/large-json-python/parser-speed-is-not-the-whole-problem) shows the same distinction from the ingestion side, where on-disk size stayed similar but object materialization changed peak memory by gigabytes.
+
 ## 2-Bit vs 4-Bit
 
 The useful comparison was not just "smaller is better."
