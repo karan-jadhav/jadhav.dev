@@ -4,6 +4,7 @@ import { ArrowLeft, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 
 export const dynamic = "force-static";
 
@@ -267,9 +268,13 @@ export default async function PostPage({ params }: PostPageProps) {
             <span>{post.readingTime} min read</span>
           </div>
 
-          <h1 className="text-2xl md:text-3xl font-medium text-white leading-snug tracking-tight mb-4">
-            {post.title}
-          </h1>
+          <ViewTransition
+            name={`blog-title-${post.slug.replaceAll("/", "-")}`}
+          >
+            <h1 className="text-2xl md:text-3xl font-medium text-white leading-snug tracking-tight mb-4">
+              {post.title}
+            </h1>
+          </ViewTransition>
 
           <p className="text-gray-400 leading-relaxed">{post.description}</p>
 

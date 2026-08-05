@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 export const dynamic = "force-static";
@@ -257,9 +258,13 @@ export default function Home() {
                   href={post.url}
                   className="group block rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-700 hover:bg-white/2"
                 >
-                  <h3 className="text-sm font-medium text-gray-200 transition-colors group-hover:text-white">
-                    {post.title}
-                  </h3>
+                  <ViewTransition
+                    name={`blog-title-${post.slug.replaceAll("/", "-")}`}
+                  >
+                    <h3 className="text-sm font-medium text-gray-200 transition-colors group-hover:text-white">
+                      {post.title}
+                    </h3>
+                  </ViewTransition>
                   <p className="mt-1.5 text-sm leading-relaxed text-gray-400">
                     {post.description}
                   </p>

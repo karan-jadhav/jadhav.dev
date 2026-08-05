@@ -230,5 +230,6 @@ interface MdxProps {
 export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
 
+  // eslint-disable-next-line react-hooks/static-components -- MDX code is compiled into a component by the content pipeline.
   return <Component components={components} />;
 }

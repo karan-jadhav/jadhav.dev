@@ -3,6 +3,7 @@ import { compareDesc } from "date-fns";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
+import { ViewTransition } from "react";
 
 export const dynamic = "force-static";
 
@@ -124,9 +125,13 @@ export default function BlogPage() {
                     <span className="text-zinc-700">·</span>
                     <span>{post.readingTime} min read</span>
                   </div>
-                  <h2 className="text-lg text-zinc-100 group-hover:text-white transition-colors mb-2">
-                    {post.title}
-                  </h2>
+                  <ViewTransition
+                    name={`blog-title-${post.slug.replaceAll("/", "-")}`}
+                  >
+                    <h2 className="text-lg text-zinc-100 group-hover:text-white transition-colors mb-2">
+                      {post.title}
+                    </h2>
+                  </ViewTransition>
                   <p className="text-sm text-zinc-500 leading-relaxed mb-3">
                     {post.description}
                   </p>
