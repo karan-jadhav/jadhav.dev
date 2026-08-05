@@ -21,8 +21,8 @@ export function SocialCard({
         display: "flex",
         position: "relative",
         overflow: "hidden",
-        background: "#030712",
-        color: "#f8fafc",
+        background: "#000000",
+        color: "#f3f4f6",
         fontFamily: "sans-serif",
       }}
     >
@@ -35,8 +35,8 @@ export function SocialCard({
           height: 390,
           display: "flex",
           borderRadius: 999,
-          background: "#2563eb",
-          opacity: 0.13,
+          background: "#60a5fa",
+          opacity: 0.08,
           transform: "translate(120px, -165px)",
         }}
       />
@@ -48,7 +48,7 @@ export function SocialCard({
           left: 72,
           width: 3,
           display: "flex",
-          background: "#3b82f6",
+          background: "#60a5fa",
         }}
       />
       <div
@@ -59,7 +59,7 @@ export function SocialCard({
           width: 180,
           height: 1,
           display: "flex",
-          background: "#1e3a8a",
+          background: "#27272a",
         }}
       />
       <div
@@ -85,7 +85,7 @@ export function SocialCard({
           }}
         >
           <span>{eyebrow}</span>
-          <span style={{ color: "#64748b", letterSpacing: "0.08em" }}>
+          <span style={{ color: "#9ca3af", letterSpacing: "0.08em" }}>
             JADHAV.DEV
           </span>
         </div>
@@ -107,7 +107,7 @@ export function SocialCard({
             style={{
               maxWidth: 940,
               display: "flex",
-              color: "#94a3b8",
+              color: "#d1d5db",
               fontSize: 26,
               lineHeight: 1.35,
             }}
@@ -122,7 +122,7 @@ export function SocialCard({
             display: "flex",
             alignItems: "center",
             gap: 18,
-            color: "#64748b",
+            color: "#9ca3af",
             fontSize: 16,
             letterSpacing: "0.08em",
             textTransform: "uppercase",

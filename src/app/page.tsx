@@ -1,15 +1,15 @@
+import { allPosts } from "contentlayer/generated";
 import {
   BookOpen,
   ExternalLink,
   FileText,
-  Github,
   Mail,
   MapPin,
   Server,
 } from "lucide-react";
-import { allPosts } from "contentlayer/generated";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 export const dynamic = "force-static";
 
@@ -96,7 +96,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github className="w-4 h-4" />
+              <FaGithub aria-hidden="true" className="w-4 h-4" />
               GitHub
             </a>
             <a
@@ -105,7 +105,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ExternalLink className="w-4 h-4" />
+              <FaLinkedin aria-hidden="true" className="w-4 h-4" />
               LinkedIn
             </a>
             <a
@@ -245,7 +245,7 @@ export default function Home() {
               <article key={post.slug}>
                 <Link
                   href={post.url}
-                  className="group block rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-700 hover:bg-white/[0.02]"
+                  className="group block rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-700 hover:bg-white/2"
                 >
                   <h3 className="text-sm font-medium text-gray-200 transition-colors group-hover:text-white">
                     {post.title}
