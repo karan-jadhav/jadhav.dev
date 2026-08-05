@@ -522,6 +522,17 @@ export default function Home() {
             </div>
             <div>
               <div className="font-medium">
+                NASA GPM IMERG Precipitation Pipeline
+              </div>
+              <div className="text-sm text-gray-400 mt-1">
+                Built and operated near-real-time ingestion of half-hourly
+                precipitation GeoTIFFs with a 10-minute availability buffer and
+                Amazon S3 storage for insurance and financial-services risk
+                monitoring and alerts.
+              </div>
+            </div>
+            <div>
+              <div className="font-medium">
                 Natural-Language Geospatial Analytics
               </div>
               <div className="text-sm text-gray-400 mt-1">
