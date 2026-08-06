@@ -11,7 +11,7 @@ export function GET(request: Request) {
   const post = slug ? allPosts.find((entry) => entry.slug === slug) : undefined;
 
   let card = {
-    eyebrow: "Backend Engineer",
+    eyebrow: "Profile",
     title: "Karan Jadhav",
     description:
       "Production Python services, distributed data platforms, and high-performance APIs.",
@@ -20,15 +20,15 @@ export function GET(request: Request) {
 
   if (type === "blog") {
     card = {
-      eyebrow: "Engineering Notes",
-      title: "Backend Engineering Blog",
+      eyebrow: "Notes Archive",
+      title: "Engineering Notes",
       description:
         "Benchmark-driven notes on databases, Python, distributed systems, vector search, and performance.",
       labels: ["Benchmarks", "Data systems", "Performance"],
     };
   } else if (post) {
     card = {
-      eyebrow: "Engineering Field Note",
+      eyebrow: "Field Note",
       title: post.title,
       description: post.description,
       labels: post.tags,

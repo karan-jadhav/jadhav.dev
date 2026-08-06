@@ -1,8 +1,8 @@
+import { ManualHeader } from "@/components/ManualHeader";
 import { allPosts } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Mail } from "lucide-react";
 import { ViewTransition } from "react";
 
 export const dynamic = "force-static";
@@ -12,8 +12,7 @@ const description =
 
 export const metadata: Metadata = {
   title: "Backend Engineering Blog",
-  description:
-    "Benchmark-driven notes on databases, Python, distributed systems, vector search, and performance.",
+  description,
   alternates: {
     canonical: "/blog",
   },
@@ -75,107 +74,107 @@ export default function BlogPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-gray-100 px-6 py-16 md:py-24">
+    <div className="manual-site">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(blogJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <header className="mb-12">
-          <nav aria-label="Primary">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors mb-8"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Home</span>
-            </Link>
-          </nav>
-          <h1 className="text-3xl font-light tracking-tight text-white mb-3">
-            Blog
-          </h1>
-          <p className="text-zinc-500 text-sm">
-            Benchmark-driven notes on databases, Python, distributed systems,
-            vector search, and performance.
-          </p>
+      <ManualHeader />
+
+      <main className="manual-document">
+        <div className="manual-titlebar" aria-hidden="true">
+          <span>NOTES(7)</span>
+          <span>Karan&apos;s Manual</span>
+          <span>NOTES(7)</span>
+        </div>
+        <p className="manual-command">ls -lt ~/notes</p>
+
+        <header className="manual-section notes-intro">
+          <span className="manual-section__label">Name</span>
+          <div className="manual-section__body notes-name">
+            <h1>
+              field notes <span>— the things I measured</span>
+            </h1>
+            <p>{description}</p>
+            <div className="notes-count">
+              {posts.length} published {posts.length === 1 ? "entry" : "entries"}
+            </div>
+          </div>
         </header>
 
-        {/* Posts */}
-        {posts.length === 0 ? (
-          <p className="text-zinc-600 text-sm">No posts yet.</p>
-        ) : (
-          <div className="space-y-4">
-            {posts.map((post) => (
-              <article key={post.slug}>
-                <Link
-                  href={post.url}
-                  className="group block p-5 -mx-5 rounded-xl hover:bg-zinc-900/50 transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3 text-xs text-zinc-500 mb-3">
-                    <time dateTime={post.date}>
+        <section className="manual-section" aria-labelledby="archive-heading">
+          <h2 className="manual-section__label" id="archive-heading">
+            Archive
+          </h2>
+          <div className="manual-section__body notes-index">
+            {posts.length === 0 ? (
+              <p className="notes-empty">No notes found.</p>
+            ) : (
+              posts.map((post) => (
+                <article className="notes-entry" key={post.slug}>
+                  <Link href={post.url} className="notes-entry__link">
+                    <time className="notes-entry__date" dateTime={post.date}>
                       {new Date(post.date).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
-                        day: "numeric",
+                        day: "2-digit",
                       })}
                     </time>
-                    <span className="text-zinc-700">·</span>
-                    <span>{post.readingTime} min read</span>
-                  </div>
-                  <ViewTransition
-                    name={`blog-title-${post.slug.replaceAll("/", "-")}`}
-                  >
-                    <h2 className="text-lg text-zinc-100 group-hover:text-white transition-colors mb-2">
-                      {post.title}
-                    </h2>
-                  </ViewTransition>
-                  <ViewTransition
-                    name={`blog-description-${post.slug.replaceAll("/", "-")}`}
-                    share="text-morph"
-                    default="none"
-                  >
-                    <p className="text-sm text-zinc-500 leading-relaxed mb-3">
-                      {post.description}
-                    </p>
-                  </ViewTransition>
-                  {post.tags && post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 text-xs text-zinc-500 bg-zinc-800/50 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    <div>
+                      <ViewTransition
+                        name={`blog-title-${post.slug.replaceAll("/", "-")}`}
+                      >
+                        <h2>{post.title}</h2>
+                      </ViewTransition>
+                      <ViewTransition
+                        name={`blog-description-${post.slug.replaceAll("/", "-")}`}
+                        share="text-morph"
+                        default="none"
+                      >
+                        <p className="notes-entry__description">
+                          {post.description}
+                        </p>
+                      </ViewTransition>
                     </div>
-                  )}
-                </Link>
-              </article>
-            ))}
+                    <div className="notes-entry__meta">
+                      <span>{post.readingTime} min read</span>
+                      {post.tags && post.tags.length > 0 && (
+                        <div className="notes-entry__tags" aria-label="Tags">
+                          {post.tags.map((tag) => (
+                            <span key={tag}>{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                </article>
+              ))
+            )}
           </div>
-        )}
+        </section>
 
-        {/* Footer */}
-        <footer className="mt-16 pt-4 border-t border-gray-800">
-          <p className="text-gray-400 text-sm flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            <span>
-              Open to high-impact collaborations, consulting, and OSS, drop me a
-              line{" "}
-              <a
-                href="mailto:karan@jadhav.dev"
-                className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-              >
-                karan@jadhav.dev
-              </a>
-            </span>
-          </p>
+        <section className="manual-section" aria-labelledby="author-heading">
+          <h2 className="manual-section__label" id="author-heading">
+            Author
+          </h2>
+          <div className="manual-section__body manual-copy">
+            <p>
+              Written by <Link href="/">Karan Jadhav</Link>, a backend engineer
+              interested in databases, distributed processing, and finding the
+              real bottleneck. Questions or corrections are welcome at{" "}
+              <a href="mailto:karan@jadhav.dev">karan@jadhav.dev</a>.
+            </p>
+          </div>
+        </section>
+
+        <footer className="manual-footer">
+          <span>NOTES(7)</span>
+          <span>August 2026</span>
+          <span>NOTES(7)</span>
         </footer>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

@@ -11,7 +11,8 @@ export function SocialCard({
   description,
   labels = [],
 }: SocialCardProps) {
-  const titleSize = title.length > 58 ? 52 : title.length > 38 ? 60 : 68;
+  const titleSize = title.length > 58 ? 48 : 60;
+  const visibleLabels = labels.slice(0, 4);
 
   return (
     <div
@@ -21,45 +22,41 @@ export function SocialCard({
         display: "flex",
         position: "relative",
         overflow: "hidden",
-        background: "#000000",
-        color: "#f3f4f6",
-        fontFamily: "sans-serif",
+        background: "#0d100e",
+        color: "#ecefe9",
+        fontFamily: "monospace",
       }}
     >
       <div
         style={{
           position: "absolute",
+          inset: 0,
+          display: "flex",
+          backgroundImage:
+            "linear-gradient(rgba(236, 239, 233, 0.035) 1px, transparent 1px)",
+          backgroundSize: "100% 32px",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
           top: 0,
-          right: 0,
-          width: 390,
-          height: 390,
+          bottom: 0,
+          left: 46,
+          width: 1,
           display: "flex",
-          borderRadius: 999,
-          background: "#60a5fa",
-          opacity: 0.08,
-          transform: "translate(120px, -165px)",
+          background: "#2c342e",
         }}
       />
       <div
         style={{
           position: "absolute",
-          top: 72,
-          bottom: 72,
-          left: 72,
-          width: 3,
+          top: 0,
+          right: 46,
+          bottom: 0,
+          width: 1,
           display: "flex",
-          background: "#60a5fa",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          right: 72,
-          bottom: 72,
-          width: 180,
-          height: 1,
-          display: "flex",
-          background: "#27272a",
+          background: "#2c342e",
         }}
       />
       <div
@@ -69,7 +66,7 @@ export function SocialCard({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "72px 80px 66px 104px",
+          padding: "48px 68px 44px",
         }}
       >
         <div
@@ -77,58 +74,123 @@ export function SocialCard({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            color: "#60a5fa",
-            fontSize: 18,
+            flexShrink: 0,
+            paddingBottom: 16,
+            borderBottom: "2px solid #ecefe9",
+            color: "#82c997",
+            fontSize: 17,
             fontWeight: 700,
-            letterSpacing: "0.16em",
+            letterSpacing: "0.08em",
             textTransform: "uppercase",
           }}
         >
-          <span>{eyebrow}</span>
-          <span style={{ color: "#9ca3af", letterSpacing: "0.08em" }}>
-            JADHAV.DEV
-          </span>
+          <span>KARAN(1)</span>
+          <span style={{ color: "#ecefe9" }}>PERSONAL MANUAL</span>
+          <span style={{ color: "#82c997" }}>KARAN(1)</span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div
+          style={{
+            height: 350,
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: 42,
+            padding: "38px 0 30px",
+            overflow: "hidden",
+          }}
+        >
           <div
             style={{
-              maxWidth: 990,
+              width: 178,
               display: "flex",
-              fontSize: titleSize,
-              lineHeight: 1.06,
+              flexDirection: "column",
+              alignSelf: "stretch",
+              paddingTop: 10,
+              color: "#e2ae6a",
+              fontSize: 17,
               fontWeight: 700,
-              letterSpacing: "-0.035em",
+              letterSpacing: "0.08em",
+              lineHeight: 1.5,
+              textTransform: "uppercase",
             }}
           >
-            {title}
+            <span style={{ color: "#717a72" }}>§</span>
+            <span>{eyebrow}</span>
+            <span
+              style={{
+                width: 28,
+                height: 3,
+                display: "flex",
+                marginTop: 14,
+                background: "#e2ae6a",
+              }}
+            />
           </div>
           <div
             style={{
-              maxWidth: 940,
+              flex: 1,
+              minWidth: 0,
               display: "flex",
-              color: "#d1d5db",
-              fontSize: 26,
-              lineHeight: 1.35,
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: 20,
+              paddingLeft: 32,
+              borderLeft: "5px solid #82c997",
             }}
           >
-            {description}
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 820,
+                display: "block",
+                fontSize: titleSize,
+                lineHeight: 1.04,
+                fontWeight: 700,
+                letterSpacing: "-0.045em",
+              }}
+            >
+              {title}
+            </div>
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 790,
+                display: "block",
+                color: "#c8cec7",
+                fontFamily: "serif",
+                fontSize: 26,
+                lineHeight: 1.42,
+              }}
+            >
+              {description}
+            </div>
           </div>
         </div>
 
         <div
           style={{
-            minHeight: 28,
+            minHeight: 44,
             display: "flex",
             alignItems: "center",
-            gap: 18,
-            color: "#9ca3af",
+            justifyContent: "space-between",
+            flexShrink: 0,
+            gap: 28,
+            paddingTop: 16,
+            borderTop: "1px solid #2c342e",
+            color: "#82c997",
             fontSize: 16,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
           }}
         >
-          {labels.length > 0 ? labels.slice(0, 4).join("  /  ") : "Backend engineering"}
+          <div style={{ display: "flex", gap: 18 }}>
+            {(visibleLabels.length > 0
+              ? visibleLabels
+              : ["Backend engineering"]
+            ).map((label) => (
+              <span key={label}>#{label.toLowerCase().replaceAll(" ", "-")}</span>
+            ))}
+          </div>
+          <span style={{ color: "#a5ada5" }}>./jadhav.dev</span>
         </div>
       </div>
     </div>

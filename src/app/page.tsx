@@ -1,16 +1,8 @@
+import { ManualHeader } from "@/components/ManualHeader";
 import { allPosts } from "contentlayer/generated";
-import {
-  BookOpen,
-  ExternalLink,
-  FileText,
-  Mail,
-  MapPin,
-  Server,
-} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ViewTransition } from "react";
-import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 export const dynamic = "force-static";
 
@@ -63,7 +55,7 @@ export default function Home() {
     .slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-black text-gray-100 flex items-center justify-center px-6 py-24">
+    <div className="manual-site">
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe
@@ -71,541 +63,424 @@ export default function Home() {
           __html: JSON.stringify(profileJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <div className="max-w-3xl mx-auto space-y-16">
-        <div className="text-center">
-          <h1 className="text-4xl font-light text-white mb-2">
-            hey, I&apos;m Karan Jadhav <span className="wave-on-load">👋</span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-300">
-            Backend engineer with 5+ years building production Python services,
-            distributed geospatial data platforms, and high-performance APIs on
-            AWS.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
-            <a
-              href="/Karan_Jadhav_Resume.pdf"
-              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FileText className="w-4 h-4" />
-              Resume
-            </a>
-            <a
-              href="https://github.com/karan-jadhav"
-              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaGithub aria-hidden="true" className="w-4 h-4" />
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/jadhav-karan/"
-              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaLinkedin aria-hidden="true" className="w-4 h-4" />
-              LinkedIn
-            </a>
-            <a
-              href="mailto:karan@jadhav.dev"
-              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              Email
-            </a>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-blue-400 transition-colors"
-            >
-              <BookOpen className="w-4 h-4" />
-              Blog
-            </Link>
-          </div>
-        </div>
+      <ManualHeader />
 
-        <div className="space-y-8 text-gray-300 leading-relaxed">
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <MapPin className="w-4 h-4" />
-            <span>
-              Navi Mumbai, India{" "}
-              <span aria-label="India" role="img">
-                🇮🇳
+      <main className="manual-document">
+        <div className="manual-titlebar" aria-hidden="true">
+          <span>KARAN(1)</span>
+          <span>Personal Manual</span>
+          <span>KARAN(1)</span>
+        </div>
+        <p className="manual-command">man karan</p>
+
+        <section className="manual-section" aria-labelledby="name-heading">
+          <h2 className="manual-section__label" id="name-heading">
+            Name
+          </h2>
+          <div className="manual-section__body manual-name">
+            <h1>
+              <span className="manual-name__person">karan</span>
+              <span className="manual-name__dash" aria-hidden="true">
+                —
               </span>
-            </span>
-          </div>
-
-          <p>
-            I build Python backend systems for geospatial data, climate risk
-            analytics, distributed processing, and high-performance APIs.
-          </p>
-
-          <p>
-            From March 2021 to May 2026, I worked at{" "}
-            <a
-              href="https://intensel.net"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Intensel Ltd
-            </a>{" "}
-            as a Software Engineer focused on backend and data infrastructure. I
-            owned architecture, delivery, distributed processing, and production
-            support for a climate risk platform used by enterprise customers
-            across 10+ countries.
-          </p>
-
-          <p className="text-gray-300">
-            Feel free to reach out and say hi on{" "}
-            <a
-              href="https://x.com/IamKaranJadhav"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              X <ExternalLink className="w-3 h-3" />
-            </a>{" "}
-            or{" "}
-            <a
-              href="https://www.linkedin.com/in/jadhav-karan/"
-              className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-flex items-center gap-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn <ExternalLink className="w-3 h-3" />
-            </a>
-            . I&apos;m always happy to connect, collaborate, and share
-            knowledge.
-          </p>
-        </div>
-
-        <div className="space-y-6">
-          <h2 className="text-xl font-light text-white">Selected impact</h2>
-          <div className="grid gap-4 sm:grid-cols-2 text-sm text-gray-300">
-            <div className="border-l border-blue-400/40 pl-4">
-              <div className="text-white font-medium">
-                2.3B+ building records
-              </div>
-              <div className="text-gray-400 mt-1">
-                Designed ingestion and query systems across 1.8 TB of PostGIS
-                data.
-              </div>
-            </div>
-            <div className="border-l border-blue-400/40 pl-4">
-              <div className="text-white font-medium">50K+ jobs/day</div>
-              <div className="text-gray-400 mt-1">
-                Operated AWS SQS and Dask workflows with scheduling, retries,
-                worker orchestration, and failure recovery.
-              </div>
-            </div>
-            <div className="border-l border-blue-400/40 pl-4">
-              <div className="text-white font-medium">
-                Minutes to single-digit milliseconds
-              </div>
-              <div className="text-gray-400 mt-1">
-                Reduced critical query latency through PostGIS indexing and
-                query optimization.
-              </div>
-            </div>
-            <div className="border-l border-blue-400/40 pl-4">
-              <div className="text-white font-medium">p99 under 200ms</div>
-              <div className="text-gray-400 mt-1">
-                Built FastAPI and Django APIs with caching strategies for
-                production load.
-              </div>
-            </div>
-            <div className="border-l border-blue-400/40 pl-4">
-              <div className="text-white font-medium">
-                Half-hourly NASA precipitation data
-              </div>
-              <div className="text-gray-400 mt-1">
-                Built a near-real-time pipeline for GPM IMERG GeoTIFFs with a
-                10-minute availability buffer and Amazon S3 delivery for risk
-                monitoring and alerts.
-              </div>
-            </div>
-            <div className="border-l border-blue-400/40 pl-4">
-              <div className="text-white font-medium">
-                60% faster deployments
-              </div>
-              <div className="text-gray-400 mt-1">
-                Built Docker-based CI/CD and deployed services to Kubernetes on
-                Amazon EKS with CloudWatch observability.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section className="space-y-6" aria-labelledby="latest-writing">
-          <div className="flex items-center justify-between gap-4">
-            <h2 id="latest-writing" className="text-xl font-light text-white">
-              Latest writing
-            </h2>
-            <Link
-              href="/blog"
-              className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              View all posts
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {featuredPosts.map((post) => (
-              <article key={post.slug}>
-                <Link
-                  href={post.url}
-                  className="group block rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-700 hover:bg-white/2"
-                >
-                  <ViewTransition
-                    name={`blog-title-${post.slug.replaceAll("/", "-")}`}
-                  >
-                    <h3 className="text-sm font-medium text-gray-200 transition-colors group-hover:text-white">
-                      {post.title}
-                    </h3>
-                  </ViewTransition>
-                  <ViewTransition
-                    name={`blog-description-${post.slug.replaceAll("/", "-")}`}
-                    share="text-morph"
-                    default="none"
-                  >
-                    <p className="mt-1.5 text-sm leading-relaxed text-gray-400">
-                      {post.description}
-                    </p>
-                  </ViewTransition>
-                </Link>
-              </article>
-            ))}
+              <span className="manual-name__role">backend engineer</span>
+            </h1>
+            <p className="manual-lede">
+              Backend engineer with 5+ years building production Python
+              services, distributed geospatial data platforms, and
+              high-performance APIs on AWS.
+            </p>
+            <p className="manual-location">Navi Mumbai, India 🇮🇳</p>
           </div>
         </section>
 
-        {/* <div className="space-y-6">
-          <h2 className="text-xl font-light text-white">Currently</h2>
-          <div className="space-y-3 text-gray-300">
-            <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <div className="font-medium">
-                  Focusing on distributed systems (DDIA)
-                </div>
-                <div className="text-sm text-gray-400">
-                  Exploring consistency models, data partitioning strategies,
-                  and scalable system design.
-                </div>
-              </div>
-            </div>
+        <section className="manual-section" aria-labelledby="synopsis-heading">
+          <h2 className="manual-section__label" id="synopsis-heading">
+            Synopsis
+          </h2>
+          <div className="manual-section__body">
+            <p className="manual-synopsis">
+              karan <strong>--build</strong> backend-systems{" "}
+              <strong>--with</strong> python,postgres,aws{" "}
+              <strong>--optimize-for</strong> scale,reliability
+            </p>
           </div>
-        </div> */}
+        </section>
 
-        <div className="space-y-6">
-          <h2 className="text-xl font-light text-white">Experience</h2>
-          <div className="space-y-4 text-gray-300">
-            <div>
-              <div className="font-medium">
-                Software Engineer (Backend & Data Infrastructure) at Intensel
+        <section className="manual-section" aria-labelledby="links-heading">
+          <h2 className="manual-section__label" id="links-heading">
+            Links
+          </h2>
+          <div className="manual-section__body">
+            <ul className="manual-links">
+              <li>
+                <a
+                  href="/Karan_Jadhav_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  resume.pdf
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/karan-jadhav"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  github
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/jadhav-karan/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  linkedin
+                </a>
+              </li>
+              <li>
+                <a href="mailto:karan@jadhav.dev">email</a>
+              </li>
+              <li>
+                <Link href="/blog">notes</Link>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section className="manual-section" aria-labelledby="description-heading">
+          <h2 className="manual-section__label" id="description-heading">
+            Description
+          </h2>
+          <div className="manual-section__body manual-copy">
+            <p>
+              I build Python backend systems for geospatial data, climate risk
+              analytics, distributed processing, and high-performance APIs.
+            </p>
+            <p>
+              From March 2021 to May 2026, I worked at{" "}
+              <a
+                href="https://intensel.net"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Intensel Ltd
+              </a>{" "}
+              as a Software Engineer focused on backend and data infrastructure.
+              I owned architecture, delivery, distributed processing, and
+              production support for a climate risk platform used by enterprise
+              customers across 10+ countries.
+            </p>
+            <p>
+              Feel free to reach out and say hi on{" "}
+              <a
+                href="https://x.com/IamKaranJadhav"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                X
+              </a>{" "}
+              or{" "}
+              <a
+                href="https://www.linkedin.com/in/jadhav-karan/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+              . I&apos;m always happy to connect, collaborate, and share
+              knowledge.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="manual-section manual-section--signal"
+          aria-labelledby="impact-heading"
+        >
+          <h2 className="manual-section__label" id="impact-heading">
+            Selected impact
+          </h2>
+          <div className="manual-section__body">
+            <dl className="manual-definitions">
+              <div className="manual-definition">
+                <dt>
+                  <code>2.3B+</code> building records
+                </dt>
+                <dd>
+                  Designed ingestion and query systems across 1.8 TB of PostGIS
+                  data.
+                </dd>
+              </div>
+              <div className="manual-definition">
+                <dt>
+                  <code>50K+</code> jobs/day
+                </dt>
+                <dd>
+                  Operated AWS SQS and Dask workflows with scheduling, retries,
+                  worker orchestration, and failure recovery.
+                </dd>
+              </div>
+              <div className="manual-definition">
+                <dt>Minutes → single-digit milliseconds</dt>
+                <dd>
+                  Reduced critical query latency through PostGIS indexing and
+                  query optimization.
+                </dd>
+              </div>
+              <div className="manual-definition">
+                <dt>
+                  <code>p99</code> under 200ms
+                </dt>
+                <dd>
+                  Built FastAPI and Django APIs with caching strategies for
+                  production load.
+                </dd>
+              </div>
+              <div className="manual-definition">
+                <dt>Half-hourly NASA precipitation data</dt>
+                <dd>
+                  Built a near-real-time pipeline for GPM IMERG GeoTIFFs with a
+                  10-minute availability buffer and Amazon S3 delivery for risk
+                  monitoring and alerts.
+                </dd>
+              </div>
+              <div className="manual-definition">
+                <dt>
+                  <code>60%</code> faster deployments
+                </dt>
+                <dd>
+                  Built Docker-based CI/CD and deployed services to Kubernetes
+                  on Amazon EKS with CloudWatch observability.
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section
+          className="manual-section manual-section--signal"
+          aria-labelledby="writing-heading"
+        >
+          <h2 className="manual-section__label" id="writing-heading">
+            Writing
+          </h2>
+          <div className="manual-section__body">
+            <div className="manual-definitions">
+              {featuredPosts.map((post) => (
+                <article key={post.slug}>
+                  <Link href={post.url} className="manual-post-link">
+                    <time dateTime={post.date}>
+                      {new Date(post.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      })}
+                    </time>
+                    <div>
+                      <ViewTransition
+                        name={`blog-title-${post.slug.replaceAll("/", "-")}`}
+                      >
+                        <h3>{post.title}</h3>
+                      </ViewTransition>
+                      <ViewTransition
+                        name={`blog-description-${post.slug.replaceAll("/", "-")}`}
+                        share="text-morph"
+                        default="none"
+                      >
+                        <p>{post.description}</p>
+                      </ViewTransition>
+                    </div>
+                    <span className="manual-post-link__meta">
+                      {post.readingTime} min
+                    </span>
+                  </Link>
+                </article>
+              ))}
+            </div>
+            <p className="manual-location">
+              See the complete archive at <Link href="/blog">notes(7)</Link>.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="manual-section manual-section--signal"
+          aria-labelledby="experience-heading"
+        >
+          <h2 className="manual-section__label" id="experience-heading">
+            Experience
+          </h2>
+          <div className="manual-section__body">
+            <article className="manual-experience">
+              <h3>
+                Software Engineer (Backend &amp; Data Infrastructure) — Intensel
                 Ltd
-              </div>
-              <div className="text-sm text-gray-400">
-                March 2021 - May 2026 · 5+ years
-              </div>
-              <div className="text-sm mt-1">
+              </h3>
+              <time>March 2021 – May 2026 · 5+ years</time>
+              <p>
                 Owned backend architecture and data infrastructure for a climate
                 risk platform serving enterprise customers across 10+ countries.
                 Took changes from ambiguous requirements through technical
                 design, automated testing, deployment, and production support;
                 reviewed code, mentored engineers, and investigated incidents
                 across APIs, workers, queues, databases, and deployments.
-              </div>
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section className="manual-section" aria-labelledby="skills-heading">
+          <h2 className="manual-section__label" id="skills-heading">
+            Skills
+          </h2>
+          <div className="manual-section__body">
+            <div className="manual-skill-group">
+              <h3>Backend / APIs, validation &amp; testing</h3>
+              <p>
+                <code data-core="true">Django</code>{" "}
+                <code data-core="true">FastAPI</code> <code>Axum</code>{" "}
+                <code>REST APIs</code> <code>Validation</code>{" "}
+                <code>Automated testing</code>
+              </p>
+            </div>
+            <div className="manual-skill-group">
+              <h3>Languages / Application &amp; data systems</h3>
+              <p>
+                <code data-core="true">Python</code>{" "}
+                <code data-core="true">SQL</code> <code>Rust</code>
+              </p>
+            </div>
+            <div className="manual-skill-group">
+              <h3>AI &amp; analytics / Natural-language data access</h3>
+              <p>
+                <code>LLM agents</code> <code>Natural-language queries</code>{" "}
+                <code>Geospatial analytics</code>
+              </p>
+            </div>
+            <div className="manual-skill-group">
+              <h3>Engineering / Delivery &amp; production support</h3>
+              <p>
+                <code>System design</code> <code>Code review</code>{" "}
+                <code>Mentoring</code> <code>Production debugging</code>{" "}
+                <code>Monitoring</code>
+              </p>
+            </div>
+            <div className="manual-skill-group">
+              <h3>Data &amp; processing / Databases, queues &amp; workers</h3>
+              <p>
+                <code data-core="true">PostgreSQL</code>{" "}
+                <code data-core="true">PostGIS</code> <code>Redis</code>{" "}
+                <code>DuckDB</code> <code>AWS SQS</code> <code>Dask</code>
+              </p>
+            </div>
+            <div className="manual-skill-group">
+              <h3>Cloud &amp; infrastructure / Deployment &amp; operations</h3>
+              <p>
+                <code data-core="true">AWS</code> <code>Docker</code>{" "}
+                <code>Kubernetes</code> <code>Amazon EKS</code> <code>EC2</code>{" "}
+                <code>S3</code> <code>RDS</code> <code>Linux</code>{" "}
+                <code>CI/CD</code> <code>CloudWatch</code>
+              </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Skills */}
-        <div className="space-y-6">
-          <h2 className="text-xl font-light text-white">Skills</h2>
-          <div className="text-xs text-gray-500 flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
-            <span className="inline-flex items-center gap-1">
-              <span className="px-2 py-0.5 text-[10px] bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                Core Expertise
-              </span>
-              <span className="text-gray-400">
-                = primary skills across sections
-              </span>
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <span className="px-2 py-0.5 text-[10px] bg-gray-800 text-gray-300 rounded ring-1 ring-inset ring-gray-700/50">
-                Also work with
-              </span>
-              <span className="text-gray-400">
-                = other skills I use regularly
-              </span>
-            </span>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {/* Backend (Core) first */}
-            <div id="backend-core" className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200 inline-flex items-center gap-2">
-                <Server className="w-4 h-4 text-blue-300" />
-                Backend
-                <span className="relative inline-flex items-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400/80 animate-pulse"></span>
-                </span>{" "}
-                <span className="ml-1 inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-blue-300 ring-1 ring-inset ring-blue-400/30">
-                  Core
-                </span>
-              </h3>
-              <div className="text-xs text-gray-400">
-                APIs, validation & testing
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  Django
-                </span>
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  FastAPI
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Axum
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  REST APIs
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Validation
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Automated testing
-                </span>
-              </div>
-            </div>
-
-            {/* Languages */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">Languages</h3>
-              <div className="text-xs text-gray-400">
-                Application & data systems
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  Python
-                </span>
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  SQL
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Rust
-                </span>
-              </div>
-            </div>
-
-            {/* AI & Analytics */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">
-                AI & Analytics
-              </h3>
-              <div className="text-xs text-gray-400">
-                Natural-language data access
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  LLM agents
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Natural-language queries
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Geospatial analytics
-                </span>
-              </div>
-            </div>
-
-            {/* Engineering */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">Engineering</h3>
-              <div className="text-xs text-gray-400">
-                Delivery & production support
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  System design
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Code review
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Mentoring
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Production debugging
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Monitoring
-                </span>
-              </div>
-            </div>
-
-            {/* Data & Processing */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">
-                Data & Processing
-              </h3>
-              <div className="text-xs text-gray-400">
-                Databases, queues & workers
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  PostgreSQL
-                </span>
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  PostGIS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Redis
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  DuckDB
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  AWS SQS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Dask
-                </span>
-              </div>
-            </div>
-
-            {/* Cloud & Infrastructure */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-200">
-                Cloud & Infrastructure
-              </h3>
-              <div className="text-xs text-gray-400">
-                Deployment & operations
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 text-xs bg-blue-500/10 text-blue-300 rounded ring-1 ring-inset ring-blue-400/30">
-                  AWS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Docker
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Kubernetes
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Amazon EKS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  EC2
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  S3
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  RDS
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  Linux
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  CI/CD
-                </span>
-                <span className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded">
-                  CloudWatch
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <h2 className="text-xl font-light text-white">Projects</h2>
-          <div className="space-y-4 text-gray-300">
-            <div>
-              <div className="font-medium">Climate Risk Platform</div>
-              <div className="text-sm text-gray-400 mt-1">
+        <section className="manual-section" aria-labelledby="projects-heading">
+          <h2 className="manual-section__label" id="projects-heading">
+            Projects
+          </h2>
+          <div className="manual-section__body manual-projects">
+            <article className="manual-project">
+              <span className="manual-project__index">01</span>
+              <h3>Climate Risk Platform</h3>
+              <p>
                 Owned backend architecture and delivery for an enterprise
                 climate risk platform serving customers across 10+ countries,
                 from requirements and technical design through rollout and
                 production support.
-              </div>
-            </div>
-            <div>
-              <div className="font-medium">
-                NASA GPM IMERG Precipitation Pipeline
-              </div>
-              <div className="text-sm text-gray-400 mt-1">
+              </p>
+            </article>
+            <article className="manual-project">
+              <span className="manual-project__index">02</span>
+              <h3>NASA GPM IMERG Precipitation Pipeline</h3>
+              <p>
                 Built and operated near-real-time ingestion of half-hourly
                 precipitation GeoTIFFs with a 10-minute availability buffer and
                 Amazon S3 storage for insurance and financial-services risk
                 monitoring and alerts.
-              </div>
-            </div>
-            <div>
-              <div className="font-medium">
-                Natural-Language Geospatial Analytics
-              </div>
-              <div className="text-sm text-gray-400 mt-1">
+              </p>
+            </article>
+            <article className="manual-project">
+              <span className="manual-project__index">03</span>
+              <h3>Natural-Language Geospatial Analytics</h3>
+              <p>
                 Built an LLM-powered agent that converted natural-language
                 requests into structured geospatial and analytics queries, using
                 DuckDB for vector-data analysis and integrating with backend
                 APIs and PostgreSQL/PostGIS.
-              </div>
-            </div>
-            <div>
-              <div className="font-medium">Global Building Footprints</div>
-              <div className="text-sm text-gray-400 mt-1">
+              </p>
+            </article>
+            <article className="manual-project">
+              <span className="manual-project__index">04</span>
+              <h3>Global Building Footprints</h3>
+              <p>
                 Built ingestion, validation, indexing, and query workflows for
                 2.3B+ building records across 1.8 TB of PostGIS data, balancing
                 batch throughput with low-latency access.
-              </div>
-            </div>
-            <div>
-              <div className="font-medium">Map Tile Service</div>
-              <div className="text-sm text-gray-400 mt-1">
+              </p>
+            </article>
+            <article className="manual-project">
+              <span className="manual-project__index">05</span>
+              <h3>Map Tile Service</h3>
+              <p>
                 Designed authenticated backend delivery for 5.3 TB of geospatial
                 raster data, with tuned storage access, caching, logging, and
                 monitoring for reliable production delivery.
-              </div>
-            </div>
-            <div>
-              <div className="font-medium">RediServe</div>
-              <div className="text-sm text-gray-400 mt-1">
+              </p>
+            </article>
+            <article className="manual-project">
+              <span className="manual-project__index">06</span>
+              <h3>RediServe</h3>
+              <p>
                 Built an asynchronous HTTP API for Redis in Rust with Axum and
                 Tokio, using connection pooling and explicit backend resource
                 management.
-              </div>
-            </div>
+              </p>
+            </article>
           </div>
-        </div>
+        </section>
 
-        <div className="space-y-6">
-          <h2 className="text-xl font-light text-white">Education</h2>
-          <div className="space-y-1 text-gray-300">
-            <div className="font-medium">Bachelor of Computer Science</div>
-            <div className="text-sm text-gray-400">
-              University of Mumbai · 2020
-            </div>
+        <section className="manual-section" aria-labelledby="education-heading">
+          <h2 className="manual-section__label" id="education-heading">
+            Education
+          </h2>
+          <div className="manual-section__body manual-education">
+            <strong>Bachelor of Computer Science</strong>
+            <span>University of Mumbai · 2020</span>
           </div>
-        </div>
+        </section>
 
-        <div className="pt-4 border-t border-gray-800">
-          <p className="text-gray-400 text-sm flex flex-wrap items-center gap-x-3 gap-y-2">
-            <Mail className="w-4 h-4" />
-            <span>
-              Open to high-impact collaborations, consulting, and OSS, drop me a
-              line{" "}
-              <a
-                href="mailto:karan@jadhav.dev"
-                className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-              >
-                karan@jadhav.dev
-              </a>
-            </span>
-          </p>
-        </div>
-      </div>
-    </main>
+        <section className="manual-section" aria-labelledby="see-also-heading">
+          <h2 className="manual-section__label" id="see-also-heading">
+            See also
+          </h2>
+          <div className="manual-section__body manual-copy">
+            <p>
+              Open to high-impact collaborations, consulting, and OSS. Drop me a
+              line at <a href="mailto:karan@jadhav.dev">karan@jadhav.dev</a>.
+            </p>
+          </div>
+        </section>
+
+        <footer className="manual-footer">
+          <span>KARAN(1)</span>
+          <span>August 2026</span>
+          <span>KARAN(1)</span>
+        </footer>
+      </main>
+    </div>
   );
 }

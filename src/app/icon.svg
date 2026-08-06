@@ -4,22 +4,23 @@
   role="img"
   aria-labelledby="title"
 >
-  <title id="title">Karan Jadhav K dot mark</title>
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#000000" />
+  <title id="title">Karan Jadhav terminal K mark</title>
+  <rect x="1" y="1" width="62" height="62" rx="3" fill="#0d100e" />
   <rect
-    x="2.75"
-    y="2.75"
-    width="58.5"
-    height="58.5"
-    rx="13.25"
+    x="1.75"
+    y="1.75"
+    width="60.5"
+    height="60.5"
+    rx="2.25"
     fill="none"
-    stroke="#27272a"
+    stroke="#2c342e"
     stroke-width="1.5"
   />
+  <path d="M2 21.5h60M2 42.5h60" stroke="#18201a" />
+  <rect x="8" y="8" width="4" height="48" fill="#82c997" />
   <path
-    d="M14 12h9v15.5L36.75 12H47L29.75 31 48 52H37.25L23 35.5V52h-9V12Z"
-    fill="#f3f4f6"
+    d="M18 12h9v15.5L40.75 12H51L33.75 31 52 52H41.25L27 35.5V52h-9V12Z"
+    fill="#ecefe9"
   />
-  <circle cx="52" cy="31" r="5" fill="#000000" />
-  <circle cx="52" cy="31" r="3.5" fill="#60a5fa" />
+  <rect x="48" y="56" width="8" height="3" fill="#e2ae6a" />
 </svg>

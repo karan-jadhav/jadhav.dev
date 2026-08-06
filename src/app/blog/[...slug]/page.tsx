@@ -1,6 +1,6 @@
 import { Mdx } from "@/components/mdx-components";
+import { ManualHeader } from "@/components/ManualHeader";
 import { allPosts } from "contentlayer/generated";
-import { ArrowLeft, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -184,8 +184,19 @@ export default async function PostPage({ params }: PostPageProps) {
     ],
   };
 
+  const publishedLabel = new Date(post.date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const modifiedLabel = new Date(modifiedDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
-    <main className="min-h-screen bg-black text-gray-100 px-6 py-16 md:py-24">
+    <div className="manual-site">
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: safe
@@ -193,175 +204,112 @@ export default async function PostPage({ params }: PostPageProps) {
           __html: JSON.stringify(articleJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <article className="max-w-2xl mx-auto">
-        {/* Navigation */}
-        <nav aria-label="Breadcrumb" className="mb-12">
-          <ol className="flex items-center gap-2 text-sm text-gray-500">
+      <ManualHeader />
+
+      <main className="article-document">
+        <div className="manual-titlebar" aria-hidden="true">
+          <span>NOTE(7)</span>
+          <span>Karan&apos;s Manual</span>
+          <span>NOTE(7)</span>
+        </div>
+
+        <nav aria-label="Breadcrumb" className="article-breadcrumb">
+          <ol>
             <li>
-              <Link
-                href="/"
-                className="transition-colors hover:text-gray-300"
-              >
-                Home
-              </Link>
+              <Link href="/">~</Link>
             </li>
-            <li aria-hidden="true" className="text-gray-700">
-              /
-            </li>
+            <li aria-hidden="true">/</li>
             <li>
-              <Link
-                href="/blog"
-                className="transition-colors hover:text-gray-300"
-              >
-                Blog
-              </Link>
+              <Link href="/blog">notes</Link>
             </li>
-            <li aria-hidden="true" className="text-gray-700">
-              /
-            </li>
-            <li
-              aria-current="page"
-              className="min-w-0 flex-1 truncate text-gray-400"
-              title={post.title}
-            >
-              {post.title}
-            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page">{post.slug.split("/").at(-1)}</li>
           </ol>
         </nav>
 
-        {/* Header */}
-        <header className="mb-12">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-6">
-            <span>
-              By{" "}
-              <Link
-                href="/"
-                className="text-gray-400 hover:text-gray-200 transition-colors"
-              >
-                Karan Jadhav
-              </Link>
-            </span>
-            <span className="text-gray-700">·</span>
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            {post.updated && post.updated !== post.date && (
-              <>
-                <span className="text-gray-700">·</span>
-                <span>
-                  Updated{" "}
-                  <time dateTime={post.updated}>
-                    {new Date(post.updated).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                </span>
-              </>
-            )}
-            <span className="text-gray-700">·</span>
-            <span>{post.readingTime} min read</span>
+        <article>
+          <header className="article-header">
+            <div className="article-header__kind">Technical note</div>
+            <ViewTransition
+              name={`blog-title-${post.slug.replaceAll("/", "-")}`}
+            >
+              <h1 className="article-title">{post.title}</h1>
+            </ViewTransition>
+            <ViewTransition
+              name={`blog-description-${post.slug.replaceAll("/", "-")}`}
+              share="text-morph"
+              default="none"
+            >
+              <p className="article-description">{post.description}</p>
+            </ViewTransition>
+            <div className="article-byline">
+              <span>
+                by <strong>Karan Jadhav</strong>
+              </span>
+              <time dateTime={post.date}>
+                published <strong>{publishedLabel}</strong>
+              </time>
+              {post.updated && post.updated !== post.date && (
+                <time dateTime={post.updated}>
+                  updated <strong>{modifiedLabel}</strong>
+                </time>
+              )}
+              <span>
+                <strong>{post.readingTime} min read</strong>
+              </span>
+            </div>
+          </header>
+
+          <div className="article-layout">
+            <aside className="article-aside" aria-label="Article information">
+              <p>
+                <strong>File</strong>
+                {post.slug.split("/").at(-1)}.md
+              </p>
+              <p>
+                <strong>Last modified</strong>
+                <time dateTime={modifiedDate}>{modifiedLabel}</time>
+              </p>
+              <div>
+                <strong>Tags</strong>
+                <div className="article-tags">
+                  {post.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </aside>
+
+            <div className="article-body">
+              <Mdx code={post.body.code} />
+            </div>
           </div>
 
-          <ViewTransition
-            name={`blog-title-${post.slug.replaceAll("/", "-")}`}
-          >
-            <h1 className="text-2xl md:text-3xl font-medium text-white leading-snug tracking-tight mb-4">
-              {post.title}
-            </h1>
-          </ViewTransition>
-
-          <ViewTransition
-            name={`blog-description-${post.slug.replaceAll("/", "-")}`}
-            share="text-morph"
-            default="none"
-          >
-            <p className="text-gray-400 leading-relaxed">{post.description}</p>
-          </ViewTransition>
-
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-6">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 text-xs text-gray-400 bg-white/4 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+          {relatedPosts.length > 0 && (
+            <aside className="article-related" aria-labelledby="related-heading">
+              <h2 id="related-heading">See also</h2>
+              <ul>
+                {relatedPosts.map((relatedPost) => (
+                  <li key={relatedPost.slug}>
+                    <Link href={relatedPost.url}>
+                      <span>{relatedPost.title}</span>
+                      <span>read({relatedPost.readingTime}m) →</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </aside>
           )}
-        </header>
+        </article>
 
-        {/* Divider */}
-        <div className="w-12 h-px bg-gray-800 mb-12" />
-
-        {/* Content */}
-        <div className="prose prose-lg max-w-none">
-          <Mdx code={post.body.code} />
-        </div>
-
-        {relatedPosts.length > 0 && (
-          <aside
-            aria-labelledby="related-posts-heading"
-            className="mt-20 border-t border-gray-800/50 pt-8"
-          >
-            <h2
-              id="related-posts-heading"
-              className="text-lg font-medium text-white"
-            >
-              Related posts
-            </h2>
-            <ul className="mt-5 space-y-3">
-              {relatedPosts.map((relatedPost) => (
-                <li key={relatedPost.slug}>
-                  <Link
-                    href={relatedPost.url}
-                    className="group flex items-start justify-between gap-6 text-sm text-gray-400 transition-colors hover:text-white"
-                  >
-                    <span>{relatedPost.title}</span>
-                    <span className="shrink-0 text-gray-600 transition-colors group-hover:text-blue-400">
-                      Read
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        )}
-
-        {/* Footer */}
-        <footer className="mt-20 pt-8 border-t border-gray-800/50">
-          <nav aria-label="Footer navigation">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-8"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>All posts</span>
-            </Link>
-          </nav>
-
-          <p className="text-gray-400 text-sm flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            <span>
-              Open to high-impact collaborations, consulting, and OSS, drop me a
-              line{" "}
-              <a
-                href="mailto:karan@jadhav.dev"
-                className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors"
-              >
-                karan@jadhav.dev
-              </a>
-            </span>
-          </p>
+        <footer className="article-footer">
+          <Link href="/blog">← notes(7)</Link>
+          <span>
+            Questions or corrections?{" "}
+            <a href="mailto:karan@jadhav.dev">karan@jadhav.dev</a>
+          </span>
         </footer>
-      </article>
-    </main>
+      </main>
+    </div>
   );
 }
