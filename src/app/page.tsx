@@ -81,7 +81,7 @@ export default function Home() {
             <h1>
               <span className="manual-name__person">karan</span>
               <span className="manual-name__dash" aria-hidden="true">
-                —
+                -
               </span>
               <span className="manual-name__role">backend engineer</span>
             </h1>
@@ -316,7 +316,7 @@ export default function Home() {
           <div className="manual-section__body">
             <article className="manual-experience">
               <h3>
-                Software Engineer (Backend &amp; Data Infrastructure) — Intensel
+                Software Engineer (Backend &amp; Data Infrastructure) - Intensel
                 Ltd
               </h3>
               <time>March 2021 – May 2026 · 5+ years</time>

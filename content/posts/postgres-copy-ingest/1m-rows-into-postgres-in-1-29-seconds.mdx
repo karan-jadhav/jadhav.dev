@@ -128,7 +128,7 @@ That is already a **33.5x** improvement.
 
 The database did not become magical here. The client just stopped talking to Postgres one row at a time.
 
-That is the write-side version of measuring the real constraint. In the [PgBouncer multicore benchmark](/blog/pgbouncer-multicore-limit/pgbouncer-from-45k-to-210k-queries-per-second), proxy CPU—not PostgreSQL capacity—was the first bottleneck.
+That is the write-side version of measuring the real constraint. In the [PgBouncer multicore benchmark](/blog/pgbouncer-multicore-limit/pgbouncer-from-45k-to-210k-queries-per-second), proxy CPU, not PostgreSQL capacity, was the first bottleneck.
 
 This is usually the first thing I check in ingestion code:
 

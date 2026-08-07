@@ -95,7 +95,7 @@ export default function BlogPage() {
           <span className="manual-section__label">Name</span>
           <div className="manual-section__body notes-name">
             <h1>
-              field notes <span>— the things I measured</span>
+              field notes <span>- the things I measured</span>
             </h1>
             <p>{description}</p>
             <div className="notes-count">
